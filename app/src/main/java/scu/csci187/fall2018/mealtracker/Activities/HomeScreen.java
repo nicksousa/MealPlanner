@@ -1,4 +1,4 @@
-package scu.csci187.fall2018.mealtracker.Classes;
+package scu.csci187.fall2018.mealtracker.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import scu.csci187.fall2018.mealtracker.Classes.MyRecyclerViewAdapter;
 import scu.csci187.fall2018.mealtracker.R;
 
+
+/*
+    TODO: change homescreen activity to Nav Drawer activity
+        move this code to Home fragment
+ */
 public class HomeScreen extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
     private MyRecyclerViewAdapter upAdapter, histAdapter;

@@ -21,7 +21,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private LayoutInflater inflater;
     private ItemClickListener rvClickListener;
 
-    MyRecyclerViewAdapter(Context context, List<String> meals, List<String> dates) {
+    public MyRecyclerViewAdapter(Context context, List<String> meals, List<String> dates) {
         this.inflater = LayoutInflater.from(context);
         this.meals = meals;
         this.dates = dates;
