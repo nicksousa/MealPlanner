@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="125dp"
+    android:layout_height="125dp"
+    android:layout_marginLeft="5dp">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableRow
+            android:layout_weight="0.6">
+            <ImageButton
+                android:id="@+id/listItemPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/borscht"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/listItemDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DATE"/>
+        </TableRow>
+        <TableRow >
+            <TextView
+                android:id="@+id/listItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAME"/>
+        </TableRow>
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>
