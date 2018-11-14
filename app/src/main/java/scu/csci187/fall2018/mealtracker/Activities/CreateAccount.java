@@ -11,7 +11,7 @@ import scu.csci187.fall2018.mealtracker.R;
 public class CreateAccount extends AppCompatActivity {
 
     EditText inFirstName, inLastName, inEmail, inPassword, inHeight, inWeight;
-    Button buttonRegister;
+    Button buttonRegister, buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class CreateAccount extends AppCompatActivity {
         inEmail = findViewById(R.id.inputEmail);
         inPassword = findViewById(R.id.inputPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
+        buttonBack = findViewById(R.id.buttonBack);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +41,13 @@ public class CreateAccount extends AppCompatActivity {
                 weight = Integer.parseInt(inWeight.getText().toString());
 
                 tryToRegister(fname, lname, height, weight, email, pw);
+            }
+        });
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();   // go back to LoginActivity
             }
         });
     }

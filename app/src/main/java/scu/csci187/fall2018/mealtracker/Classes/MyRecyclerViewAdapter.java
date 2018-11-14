@@ -13,6 +13,9 @@ import java.util.List;
 
 import scu.csci187.fall2018.mealtracker.R;
 
+/*
+    TODO: fix item clicking behavior
+ */
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
     private MyRecyclerViewAdapter adapter;

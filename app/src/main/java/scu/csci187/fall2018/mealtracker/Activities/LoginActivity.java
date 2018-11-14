@@ -1,5 +1,6 @@
 package scu.csci187.fall2018.mealtracker.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -34,7 +35,8 @@ public class LoginActivity extends AppCompatActivity {
                 email = emailInput.getText().toString();
                 pw = pwInput.getText().toString();
                 if(loginSuccessful(email, pw)) {
-                    // load user and go to splash screen
+                    // instantiate user obj, send it in bundle
+                    // when we go to HomeScreen activity
                 }
                 else {
                     Toast invalidInput = Toast.makeText(LoginActivity.this, "E-mail/password is not valid", Toast.LENGTH_SHORT);
@@ -57,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // go to account creation page
+                Intent intent = new Intent(getBaseContext(), CreateAccount.class);
+                startActivity(intent);
             }
         });
     }

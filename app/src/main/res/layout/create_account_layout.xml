@@ -12,48 +12,52 @@
         android:id="@+id/inputFirstName"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="First Name"
-        android:layout_centerHorizontal="true"/>
+        android:hint="First Name"/>
 
     <EditText
         android:id="@+id/inputLastName"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Last Name"
-        android:layout_below="@+id/inputFirstName"/>
+        android:hint="Last Name"/>
 
     <EditText
         android:id="@+id/inputHeight"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Height in inches"
-        android:layout_below="@id/inputLastName"/>
+        android:hint="Height in inches"/>
 
     <EditText
         android:id="@+id/inputWeight"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Weight in pounds"
-        android:layout_below="@+id/inputHeight"/>
+        android:hint="Weight in pounds" />
 
     <EditText
         android:id="@+id/inputEmail"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="E-mail address"
-        android:layout_below="@+id/inputWeight"/>
+        android:hint="E-mail address" />
 
     <EditText
         android:id="@+id/inputPassword"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:layout_below="@+id/inputEmail"/>
+        android:hint="Password" />
 
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"/>
+        android:text="Register" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"/>
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back" />
 
 </LinearLayout>
