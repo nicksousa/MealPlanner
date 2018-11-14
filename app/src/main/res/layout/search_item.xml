@@ -12,10 +12,10 @@
 
             <ImageView
                 android:id="@+id/searchPic"
-                android:layout_width="0dp"
+                android:layout_width="fill_parent"
                 android:layout_height="150dp"/>
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/frame"/>
         </FrameLayout>
