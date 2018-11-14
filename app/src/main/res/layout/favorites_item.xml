@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TableRow>
+        <FrameLayout
+            android:layout_weight="0.7"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/favoritesPic"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+            <ImageView
+                android:id="@+id/frame"
+                android:src="@drawable/frame"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+        </FrameLayout>
+    </TableRow>
+
+    <TableRow>
+        <Space android:layout_width="15dp"/>
+        <TextView
+            android:id="@+id/mealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MEAL NAME HERE"/>
+    </TableRow>
+</TableLayout>
