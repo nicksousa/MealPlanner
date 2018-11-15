@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/mealDetailName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MEAL NAME"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/mealDetailPic"
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/borscht"
+            android:scaleType="centerInside"/>
+
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/mealRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1"
+        android:layout_gravity="center_horizontal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Macros"
+            android:textSize="25dp"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:id="@+id/mealDetailProtein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Protein: 20 g"
+            android:layout_toLeftOf="@id/space1"
+            android:layout_centerVertical="true"/>
+        <Space
+            android:id="@+id/space1"
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/mealDetailCarbs"/>
+        <TextView
+            android:id="@+id/mealDetailCarbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Carbs: 20 g"
+            android:layout_toLeftOf="@+id/space2"
+            android:layout_centerVertical="true"/>
+        <Space
+            android:id="@+id/space2"
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/mealDetailFats"/>
+        <TextView
+            android:id="@+id/mealDetailFats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fat: 20 g"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingredients"
+            android:textSize="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/buttonGoToRecipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Link to Instructions"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
+
+
+</LinearLayout>

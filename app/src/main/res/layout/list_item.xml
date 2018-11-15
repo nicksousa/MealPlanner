@@ -10,12 +10,22 @@
         android:layout_height="match_parent">
         <TableRow
             android:layout_weight="0.6">
-            <ImageButton
-                android:id="@+id/listItemPic"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/borscht"
-                />
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:id="@+id/listItemPic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/borscht"
+                    android:scaleType="fitXY"/>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:src="@drawable/frame"/>
+            </FrameLayout>
+
         </TableRow>
 
         <TableRow>
