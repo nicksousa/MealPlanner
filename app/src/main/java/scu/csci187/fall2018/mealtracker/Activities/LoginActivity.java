@@ -13,7 +13,7 @@ import scu.csci187.fall2018.mealtracker.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button loginButton, passwordButton, createAccountButton;
+    Button loginButton, createAccountButton;
     EditText emailInput, pwInput;
 
     @Override
@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_layout);
 
         loginButton = findViewById(R.id.login);
-        passwordButton = findViewById(R.id.forgotPassword);
         createAccountButton = findViewById(R.id.createAccount);
         emailInput = findViewById(R.id.email);
         pwInput = findViewById(R.id.pw);
@@ -52,13 +51,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        passwordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // go to password reminder screen
-            }
-        });
-
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        TODO: swap this out for LoginManager stuff
+    */
     // to add if more time: salt + hashing function for password
     // store only hashed pw in DB, hash inputtedPw and then check against DB
     boolean loginSuccessful(String email, String pw) {
