@@ -16,7 +16,8 @@
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
             android:textSize="15sp"
-            android:hint="@string/search_terms"/>
+            android:hint="@string/search_terms"
+            android:inputType="textAutoCorrect"/>
 
         <ImageButton
             android:id="@+id/buttonSearchFilters"

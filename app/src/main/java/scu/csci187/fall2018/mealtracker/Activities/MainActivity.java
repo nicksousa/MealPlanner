@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import scu.csci187.fall2018.mealtracker.Fragments.HomeFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.MealDetailFragment;
+import scu.csci187.fall2018.mealtracker.Fragments.PreferencesFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.SearchFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.FavoritesFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.ShoppingListFragment;
@@ -25,7 +26,8 @@ import scu.csci187.fall2018.mealtracker.R;
 public class MainActivity extends AppCompatActivity
         implements HomeFragment.OnFragmentInteractionListener,
                     SearchFragment.OnFragmentInteractionListener,
-                    FavoritesFragment.OnFragmentInteractionListener {
+                    FavoritesFragment.OnFragmentInteractionListener,
+                    PreferencesFragment.OnFragmentInteractionListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_SEARCH = "search";
     private static final String TAG_FAVORITES = "favorites";
     private static final String TAG_SHOPPING = "shopping";
-    private static final String TAG_SETTINGS = "settings";
+    private static final String TAG_PREFERENCES = "preferences";
     private static final String TAG_HISTORY = "history";
     private static final String TAG_MEALDETAIL = "mealdetail";
     public static String CURRENT_TAG = TAG_HOME;
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity
             case 3:
                 return new ShoppingListFragment();
             case 4:
-                return new MealDetailFragment();
+                return new PreferencesFragment();
             default:
                 return new HomeFragment();
         }
@@ -154,7 +156,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case R.id.navI_settings:
                         navItemIndex = 4;
-                        CURRENT_TAG = TAG_SETTINGS;
+                        CURRENT_TAG = TAG_PREFERENCES;
                         break;
                     default:
                         navItemIndex = 0;

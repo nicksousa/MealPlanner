@@ -30,7 +30,7 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
     @Override
     @NonNull
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.favorites_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
         vHolder.imView.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +65,8 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            imView = itemView.findViewById(R.id.listItemPic);
-            itemName = itemView.findViewById(R.id.listItemName);
+            imView = itemView.findViewById(R.id.favoritesPic);
+            itemName = itemView.findViewById(R.id.mealName);
             itemView.setOnClickListener(this);
         }
 
