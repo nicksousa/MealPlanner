@@ -12,43 +12,43 @@
         android:id="@+id/inputFirstName"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="First Name"/>
+        android:hint="@string/first_name"/>
 
     <EditText
         android:id="@+id/inputLastName"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Last Name"/>
+        android:hint="@string/last_name"/>
 
     <EditText
         android:id="@+id/inputHeight"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Height in inches"/>
+        android:hint="@string/height_in_inches"/>
 
     <EditText
         android:id="@+id/inputWeight"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Weight in pounds" />
+        android:hint="@string/weight_in_pounds" />
 
     <EditText
         android:id="@+id/inputEmail"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="E-mail address" />
+        android:hint="@string/e_mail_address" />
 
     <EditText
         android:id="@+id/inputPassword"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Password" />
+        android:hint="@string/password" />
 
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register" />
+        android:text="@string/register" />
 
     <Space
         android:layout_width="wrap_content"
@@ -58,6 +58,6 @@
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="@string/back" />
 
 </LinearLayout>

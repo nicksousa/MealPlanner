@@ -1,12 +1,10 @@
 package scu.csci187.fall2018.mealtracker.Activities;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -14,15 +12,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
 
 import scu.csci187.fall2018.mealtracker.Fragments.HomeFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.MealDetailFragment;
@@ -31,20 +22,17 @@ import scu.csci187.fall2018.mealtracker.Fragments.FavoritesFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.ShoppingListFragment;
 import scu.csci187.fall2018.mealtracker.R;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity
+        implements HomeFragment.OnFragmentInteractionListener,
+                    SearchFragment.OnFragmentInteractionListener,
+                    FavoritesFragment.OnFragmentInteractionListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private View navHeader;
-    private ImageView imgNavHeaderBg, imgProfile;
-    private TextView txtName, txtWebsite;
     private Toolbar toolbar;
-    private FloatingActionButton fab;
 
-    // index to identify current nav menu item
     public static int navItemIndex = 0;
 
-    // tags used to attach the fragments
     private static final String TAG_HOME = "home";
     private static final String TAG_SEARCH = "search";
     private static final String TAG_FAVORITES = "favorites";
@@ -54,10 +42,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private static final String TAG_MEALDETAIL = "mealdetail";
     public static String CURRENT_TAG = TAG_HOME;
 
-    // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
 
-    // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
 
@@ -65,18 +51,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_nav_drawer);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
         mHandler = new Handler();
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
-        // initializing navigation menu
         setUpNavigationView();
 
         if (savedInstanceState == null) {
@@ -86,25 +70,18 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         }
     }
 
-    /***
-     * Returns respected fragment that user
-     * selected from navigation menu
-     */
     private void loadHomeFragment() {
-        // selecting appropriate nav menu item
         selectNavMenu();
 
-        // if user select the current navigation menu again, don't do anything
-        // just close the navigation drawer
+        /*
+            TODO: clean code-ify this if statement
+         */
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
             drawer.closeDrawers();
             return;
         }
 
-        // Sometimes, when fragment has huge data, screen seems hanging
-        // when switching between navigation menus
-        // So using runnable, the fragment is loaded with cross fade effect
-        // This effect can be seen in GMail app
+        // Cross fade effect between fragments
         Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
@@ -123,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             mHandler.post(mPendingRunnable);
         }
 
-        //Closing drawer on item click
         drawer.closeDrawers();
 
         // refresh toolbar menu
@@ -133,25 +109,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                // home
-                HomeFragment homeFragment = new HomeFragment();
-                return homeFragment;
+                return new HomeFragment();
             case 1:
-                // search
-                SearchFragment searchFragment = new SearchFragment();
-                return searchFragment;
+                return new SearchFragment();
             case 2:
-                // favorites fragment
-                FavoritesFragment favFragment = new FavoritesFragment();
-                return favFragment;
+                return new FavoritesFragment();
             case 3:
-                // shoppinglist fragment
-                ShoppingListFragment slFragment = new ShoppingListFragment();
-                return slFragment;
+                return new ShoppingListFragment();
             case 4:
-                // settings fragment
-                MealDetailFragment mdFragment = new MealDetailFragment();
-                return mdFragment;
+                return new MealDetailFragment();
             default:
                 return new HomeFragment();
         }
@@ -163,13 +129,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     private void setUpNavigationView() {
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                //Check to see which item was being clicked and perform appropriate action
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navI_home:
                         navItemIndex = 0;
@@ -214,21 +179,17 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
                 super.onDrawerOpened(drawerView);
             }
         };
 
-        //Setting the actionbarToggle to drawer layout
         drawer.setDrawerListener(actionBarDrawerToggle);
 
-        //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
 
@@ -242,8 +203,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
         if (shouldLoadHomeFragOnBackPress) {
-            // checking if user is on other navigation menu
-            // rather than home
             if (navItemIndex != 0) {
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
@@ -255,5 +214,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         super.onBackPressed();
     }
 
-    public void onFragmentInteraction(Uri uri) {}
+    public void onFragmentInteraction(String id) {
+
+    }
 }

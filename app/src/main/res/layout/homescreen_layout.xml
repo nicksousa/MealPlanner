@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today's Calories: "/>
+                android:text="@string/today_s_calories"/>
             <TextView
                 android:id="@+id/todaysCalories"
                 android:layout_width="wrap_content"
@@ -28,19 +28,34 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentEnd="true">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Macros (g): C: 25 "/>
+                android:text="@string/macros_g_c"/>
+            <TextView
+                android:id="@+id/macroCarb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="P: 55 "/>
+                android:text="@string/p"/>
+            <TextView
+                android:id="@+id/macroProtein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="55"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="F: 15 "/>
+                android:text="@string/f"/>
+            <TextView
+                android:id="@+id/macroFat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -52,7 +67,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upcoming Meals"/>
+        android:text="@string/upcoming_meals"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvUpcoming"
@@ -66,7 +81,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="History"/>
+        android:text="@string/history"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvHistory"

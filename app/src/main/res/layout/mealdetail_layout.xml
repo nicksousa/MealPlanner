@@ -9,8 +9,8 @@
         android:id="@+id/mealDetailName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MEAL NAME"
-        android:textSize="20dp"
+        android:text="@string/meal_name"
+        android:textSize="20sp"
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
@@ -40,39 +40,58 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Macros"
-            android:textSize="25dp"
+            android:text="@string/macros"
+            android:textSize="25sp"
             android:layout_alignParentStart="true"/>
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carbs"
+            android:layout_toStartOf="@id/mealDetailCarb"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/mealDetailCarb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:layout_toStartOf="@+id/tv3"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/g_protein"
+            android:layout_toStartOf="@id/mealDetailProtein"
+            android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/mealDetailProtein"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Protein: 20 g"
-            android:layout_toLeftOf="@id/space1"
+            android:text="20"
+            android:layout_toStartOf="@id/tv2"
             android:layout_centerVertical="true"/>
-        <Space
-            android:id="@+id/space1"
-            android:layout_width="5dp"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/mealDetailCarbs"/>
+
         <TextView
-            android:id="@+id/mealDetailCarbs"
+            android:id="@+id/tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Carbs: 20 g"
-            android:layout_toLeftOf="@+id/space2"
+            android:text="@string/g_fat"
+            android:layout_toStartOf="@id/mealDetailFat"
             android:layout_centerVertical="true"/>
-        <Space
-            android:id="@+id/space2"
-            android:layout_width="5dp"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/mealDetailFats"/>
         <TextView
-            android:id="@+id/mealDetailFats"
+            android:id="@+id/mealDetailFat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fat: 20 g"
-            android:layout_alignParentRight="true"
+            android:text="20"
+            android:layout_toStartOf="@id/tv1"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/g"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>
@@ -84,23 +103,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingredients"
-            android:textSize="25dp"
-            android:layout_alignParentLeft="true"
+            android:text="@string/ingredients"
+            android:textSize="25sp"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"/>
 
         <Button
             android:id="@+id/buttonGoToRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Link to Instructions"/>
+            android:layout_alignParentEnd="true"
+            android:text="@string/link_to_instructions"/>
 
     </RelativeLayout>
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content">
+
+    </ListView>
 
 
 </LinearLayout>
