@@ -1,4 +1,4 @@
-#Code Repository for Meal Planner / Nutrition App
+# Code Repository for Meal Planner / Nutrition App
 
 Note: "initialbranch" is the master branch
 
