@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
-        vHolder.imView.setOnClickListener(new View.OnClickListener() {
+        vHolder.homeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
@@ -66,6 +67,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         private ImageView imView;
         private TextView itemDate;
         private TextView itemName;
+        private LinearLayout homeLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -73,6 +75,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             imView = itemView.findViewById(R.id.listItemPic);
             itemDate = itemView.findViewById(R.id.listItemDate);
             itemName = itemView.findViewById(R.id.listItemName);
+            homeLayout = itemView.findViewById(R.id.homeLinearLayout);
             itemView.setOnClickListener(this);
         }
 

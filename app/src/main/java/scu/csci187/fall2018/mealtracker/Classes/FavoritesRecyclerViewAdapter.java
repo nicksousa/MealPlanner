@@ -3,10 +3,12 @@ package scu.csci187.fall2018.mealtracker.Classes;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,23 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
         View view = LayoutInflater.from(mContext).inflate(R.layout.favorites_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
-        vHolder.imView.setOnClickListener(new View.OnClickListener() {
+        /*vHolder.imView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
+                Toast.makeText(mContext, "TEST CLICK:  " +
+                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+        return vHolder;
+    }
+
+    // Binds data to recycled views
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        final MyViewHolder vHolder = holder;
+        vHolder.favLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
@@ -42,12 +60,6 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
             }
         });
 
-        return vHolder;
-    }
-
-    // Binds data to recycled views
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.itemName.setText(meals.get(position));
         new ImageLoaderFromUrl(holder.imView).execute(picUrls.get(position));
     }
@@ -61,17 +73,20 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imView;
         private TextView itemName;
+        private TableLayout favLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             imView = itemView.findViewById(R.id.favoritesPic);
             itemName = itemView.findViewById(R.id.mealName);
+            favLayout = itemView.findViewById(R.id.favItemLayout);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            Toast.makeText(view.getContext(), "CLICKY", Toast.LENGTH_SHORT).show();
             clickListener.onClick(view, getAdapterPosition()); // call the onClick in the OnItemClickListener
         }
 

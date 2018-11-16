@@ -99,13 +99,13 @@ public class PreferencesFragment extends Fragment {
                 dairy.isChecked(), treenut.isChecked(), peanut.isChecked(), egg.isChecked());
 
         /*
-            TODO: SAVE TO DATABASE
+            TODO: ERROR CHECKING INPUT FOR CALORIES, TIME
+                 SAVE TO DATABASE
          */
     }
 
     public void addUIListeners() {
         addRadioListener();
-        //addCheckboxListeners();
         addSavePreferencesButtonListener();
     }
 
@@ -120,76 +120,6 @@ public class PreferencesFragment extends Fragment {
             }
         });
     }
-/*  MAY BE UNNECESSARY
-    public void addCheckboxListeners() {
-        vegetarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolVegetarian = vegetarian.isChecked() ? true : false;
-            }
-        });
-        vegan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolVegan = vegan.isChecked() ? true : false;
-            }
-        });
-        pescatarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolPescatarian = pescatarian.isChecked() ? true : false;
-            }
-        });
-        kosher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolKosher = kosher.isChecked() ? true : false;
-            }
-        });
-        gluten.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolGluten = gluten.isChecked() ? true : false;
-            }
-        });
-        paleo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolPaleo = paleo.isChecked() ? true : false;
-            }
-        });
-        shellfish.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolShellfish = shellfish.isChecked() ? true : false;
-            }
-        });
-        dairy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolDairy = dairy.isChecked() ? true : false;
-            }
-        });
-        treenut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolTreenut = treenut.isChecked() ? true : false;
-            }
-        });
-        peanut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolPeanut = peanut.isChecked() ? true : false;
-            }
-        });
-        egg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolEgg = egg.isChecked() ? true : false;
-            }
-        });
-    }
-    */
 
     public void addSavePreferencesButtonListener() {
         buttonSavePrefs.setOnClickListener(new View.OnClickListener() {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         View view = LayoutInflater.from(mContext).inflate(R.layout.search_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
-        vHolder.imView.setOnClickListener(new View.OnClickListener() {
+        vHolder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
@@ -61,12 +62,14 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imView;
         private TextView itemName;
+        private TableLayout searchLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             imView = itemView.findViewById(R.id.searchPic);
             itemName = itemView.findViewById(R.id.searchMealname);
+            searchLayout = itemView.findViewById(R.id.searchTableLayout);
             itemView.setOnClickListener(this);
         }
 
