@@ -21,7 +21,8 @@
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.CreateAccountActivity" />
         <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.ViewRecipeActivity"></activity>
+        <activity android:name=".Activities.ViewRecipeActivity" />
+        <activity android:name=".Activities.TestActivity"/>
     </application>
 
 </manifest>
