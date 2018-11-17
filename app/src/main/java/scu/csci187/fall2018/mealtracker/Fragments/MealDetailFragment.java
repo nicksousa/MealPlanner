@@ -51,7 +51,8 @@ public class MealDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mealName = getArguments().getString("mealName");
-            recipeURL = getArguments().getString("picURL");
+            picURL = getArguments().getString("picURL");
+            recipeURL = getArguments().getString("recipeURL");
         }
     }
 
@@ -109,11 +110,16 @@ public class MealDetailFragment extends Fragment {
 
     public void populateMealData() {
         tvMealName.setText(mealName);
-        new ImageLoaderFromUrl(ivMealPic).execute(recipeURL);
+        new ImageLoaderFromUrl(ivMealPic).execute(picURL);
 
         mealRatingBar.setRating(3);
         ingredientsList.add("1/2 oz chicken");
         ingredientsList.add("5 lbs salt");
+        ingredientsList.add("1 bay leaf");
+        ingredientsList.add("23 ibuprofen");
+        ingredientsList.add("6 rabbit's foot");
+        ingredientsList.add("1/2 can Red Bull");
+        ingredientsList.add("2 spinach leaves");
 
 
         ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<String>(getActivity(),
