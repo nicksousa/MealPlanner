@@ -127,10 +127,11 @@ public class SearchFragment extends Fragment {
     }
 
     // Create then display Meal Detail fragment using mealName
-    public void showMealDetail(String mealName) {
+    public void showMealDetail(String mealName, String picURL) {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("mealName", mealName);
+        b.putString("picURL", picURL);
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);

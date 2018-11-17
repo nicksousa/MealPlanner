@@ -1,6 +1,7 @@
 package scu.csci187.fall2018.mealtracker.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -20,7 +22,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Activities.ViewRecipeActivity;
 import scu.csci187.fall2018.mealtracker.Classes.HomeRecyclerViewAdapter;
+import scu.csci187.fall2018.mealtracker.Classes.ImageLoaderFromUrl;
 import scu.csci187.fall2018.mealtracker.R;
 
 
@@ -28,11 +32,12 @@ public class MealDetailFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private TextView tvMealName;
+    private ImageView ivMealPic;
     private RatingBar mealRatingBar;
     private ListView lvIngredients;
-    private Button buttonToInstructions;
+    private Button buttonToRecipe;
 
-    private String mealName, picURL, instructionsURL;
+    private String mealName, picURL, recipeURL;
     private ArrayList<String> ingredientsList;
     private int mealRating;
 
@@ -46,6 +51,7 @@ public class MealDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mealName = getArguments().getString("mealName");
+            recipeURL = getArguments().getString("picURL");
         }
     }
 
@@ -54,10 +60,15 @@ public class MealDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mealdetail_layout, container, false);
         tvMealName = view.findViewById(R.id.mealDetailName);
+        ivMealPic = view.findViewById(R.id.mealDetailPic);
         mealRatingBar = view.findViewById(R.id.mealRatingBar);
         lvIngredients = view.findViewById(R.id.ingredientsList);
+        buttonToRecipe = view.findViewById(R.id.buttonGoToRecipe);
 
         ingredientsList = new ArrayList<>();
+
+        attachRatingBarListener();
+        attachRecipeButtonListener();
 
         if(!mealName.isEmpty())
             populateMealData();
@@ -67,11 +78,44 @@ public class MealDetailFragment extends Fragment {
         return view;
     }
 
+    private void attachRatingBarListener() {
+        mealRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                updateUserMealRating((int)rating);
+            }
+        });
+    }
+
+    private void attachRecipeButtonListener() {
+        buttonToRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToRecipe = new Intent(getContext(), ViewRecipeActivity.class);
+                /*
+                    TODO: Grab recipe URL via API using MealName
+                 */
+                goToRecipe.putExtra("recipeURL", recipeURL);
+                startActivity(goToRecipe);
+            }
+        });
+    }
+
+    public void updateUserMealRating(int newRating) {
+        /*
+            TODO: Add meal rating to DB for User
+         */
+    }
+
     public void populateMealData() {
         tvMealName.setText(mealName);
+        new ImageLoaderFromUrl(ivMealPic).execute(recipeURL);
+
         mealRatingBar.setRating(3);
         ingredientsList.add("1/2 oz chicken");
         ingredientsList.add("5 lbs salt");
+
+
         ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, ingredientsList);
         lvIngredients.setAdapter(ingredientsAdapter);

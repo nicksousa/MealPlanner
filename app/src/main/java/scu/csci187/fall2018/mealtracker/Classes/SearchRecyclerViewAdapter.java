@@ -43,16 +43,14 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                String mealName = meals.get(position);
-                sourceFragment.showMealDetail(mealName);
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
         vHolder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                String mealName = meals.get(position);
-                sourceFragment.showMealDetail(mealName);
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
 

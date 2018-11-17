@@ -47,8 +47,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                String mealName = meals.get(position);
-                sourceFragment.showMealDetail(mealName);
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
 
@@ -56,8 +55,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                String mealName = meals.get(position);
-                sourceFragment.showMealDetail(mealName);
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
         return vHolder;

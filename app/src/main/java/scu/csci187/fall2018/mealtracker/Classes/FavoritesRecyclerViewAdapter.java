@@ -44,16 +44,14 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                String mealName = meals.get(position);
-                sourceFragment.showMealDetail(mealName);
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
         vHolder.favLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                String mealName = meals.get(position);
-                sourceFragment.showMealDetail(mealName);
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
 
