@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -89,9 +90,21 @@ public class FavoritesFragment extends Fragment {
 
     public void createAndAttachRVAdapter() {
         FavoritesRecyclerViewAdapter favoritesAdapter = new FavoritesRecyclerViewAdapter(getContext(),
-                meals, pics);
+                meals, pics, this);
         rvFavorites.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvFavorites.setAdapter(favoritesAdapter);
+    }
+
+    // Create then display Meal Detail fragment using mealName
+    public void showMealDetail(String mealName) {
+        MealDetailFragment newFragment = new MealDetailFragment();
+        Bundle b = new Bundle();
+        b.putString("mealName", mealName);
+        newFragment.setArguments(b);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(getId(), newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     /**

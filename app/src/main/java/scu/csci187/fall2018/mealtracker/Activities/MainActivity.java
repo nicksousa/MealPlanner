@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity
         implements HomeFragment.OnFragmentInteractionListener,
                     SearchFragment.OnFragmentInteractionListener,
                     FavoritesFragment.OnFragmentInteractionListener,
-                    PreferencesFragment.OnFragmentInteractionListener {
+                    PreferencesFragment.OnFragmentInteractionListener,
+                    MealDetailFragment.OnFragmentInteractionListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commitAllowingStateLoss();
             }
         };

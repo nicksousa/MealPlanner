@@ -14,19 +14,23 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Fragments.FavoritesFragment;
 import scu.csci187.fall2018.mealtracker.R;
 
 public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<FavoritesRecyclerViewAdapter.MyViewHolder> {
 
     private List<String> meals;
     private List<String> picUrls;
+    FavoritesFragment sourceFragment;
     private ItemClickListener clickListener;
     Context mContext;
 
-    public FavoritesRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls) {
+    public FavoritesRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls,
+                                        FavoritesFragment sourceFragment) {
         this.meals = meals;
         this.picUrls = picUrls;
         this.mContext = context;
+        this.sourceFragment = sourceFragment;
     }
 
     @Override
@@ -35,14 +39,23 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
         View view = LayoutInflater.from(mContext).inflate(R.layout.favorites_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
-        /*vHolder.imView.setOnClickListener(new View.OnClickListener() {
+        // create and attach ClickListeners for both image and frame of Favorites item
+        vHolder.imView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                Toast.makeText(mContext, "TEST CLICK:  " +
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+                String mealName = meals.get(position);
+                sourceFragment.showMealDetail(mealName);
             }
-        });*/
+        });
+        vHolder.favLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
+                String mealName = meals.get(position);
+                sourceFragment.showMealDetail(mealName);
+            }
+        });
 
         return vHolder;
     }
@@ -50,16 +63,6 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
     // Binds data to recycled views
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final MyViewHolder vHolder = holder;
-        vHolder.favLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int position = vHolder.getAdapterPosition();
-                Toast.makeText(mContext, "TEST CLICK:  " +
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
-            }
-        });
-
         holder.itemName.setText(meals.get(position));
         new ImageLoaderFromUrl(holder.imView).execute(picUrls.get(position));
     }
@@ -68,6 +71,8 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
     public int getItemCount() {
         return meals.size();
     }
+
+
 
     // Stores and recycles views as they are scrolled off screen
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

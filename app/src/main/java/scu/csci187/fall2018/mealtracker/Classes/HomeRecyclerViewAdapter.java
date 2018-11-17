@@ -2,10 +2,12 @@ package scu.csci187.fall2018.mealtracker.Classes;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Fragments.HomeFragment;
 import scu.csci187.fall2018.mealtracker.R;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.MyViewHolder> {
@@ -20,14 +23,16 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     private List<String> meals;
     private List<String> dates;
     private List<String> picUrls;
+    HomeFragment sourceFragment;
     private ItemClickListener clickListener;
     Context mContext;
 
     public HomeRecyclerViewAdapter(Context context, List<String> meals, List<String> dates,
-                                                                         List<String> picUrls) {
+                                   List<String> picUrls, HomeFragment sourceFragment) {
         this.meals = meals;
         this.dates = dates;
         this.picUrls = picUrls;
+        this.sourceFragment = sourceFragment;
         this.mContext = context;
     }
 
@@ -37,15 +42,24 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
+        // Setup click listeners for both image and frame of home screen item
+        vHolder.imView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
+                String mealName = meals.get(position);
+                sourceFragment.showMealDetail(mealName);
+            }
+        });
+
         vHolder.homeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                Toast.makeText(mContext, "TEST CLICK:  " +
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+                String mealName = meals.get(position);
+                sourceFragment.showMealDetail(mealName);
             }
         });
-
         return vHolder;
     }
 

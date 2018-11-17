@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView rvSearch;
     private EditText searchText;
     private Button buttonSearch;
+
 
     private List<String> meals, pics;
 
@@ -119,9 +121,21 @@ public class SearchFragment extends Fragment {
 
     public void createAndAttachRVAdapter() {
         SearchRecyclerViewAdapter searchAdapter = new SearchRecyclerViewAdapter(getContext(),
-                meals, pics);
+                meals, pics, this);
         rvSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvSearch.setAdapter(searchAdapter);
+    }
+
+    // Create then display Meal Detail fragment using mealName
+    public void showMealDetail(String mealName) {
+        MealDetailFragment newFragment = new MealDetailFragment();
+        Bundle b = new Bundle();
+        b.putString("mealName", mealName);
+        newFragment.setArguments(b);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(getId(), newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     /**
