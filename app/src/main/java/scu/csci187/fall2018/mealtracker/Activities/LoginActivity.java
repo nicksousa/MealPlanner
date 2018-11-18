@@ -13,7 +13,7 @@ import scu.csci187.fall2018.mealtracker.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button loginButton, passwordButton, createAccountButton;
+    Button loginButton, createAccountButton;
     EditText emailInput, pwInput;
 
     @Override
@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_layout);
 
         loginButton = findViewById(R.id.login);
-        passwordButton = findViewById(R.id.forgotPassword);
         createAccountButton = findViewById(R.id.createAccount);
         emailInput = findViewById(R.id.email);
         pwInput = findViewById(R.id.pw);
@@ -35,24 +34,20 @@ public class LoginActivity extends AppCompatActivity {
                 email = emailInput.getText().toString();
                 pw = pwInput.getText().toString();
                 if(loginSuccessful(email, pw)) {
+
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     // instantiate user obj, send it in bundle
-                    // when we go to HomeScreen activity
+                    startActivity(intent);
                 }
                 else {
-                    Toast invalidInput = Toast.makeText(LoginActivity.this, "E-mail/password is not valid", Toast.LENGTH_SHORT);
+                    Toast invalidInput = Toast.makeText(LoginActivity.this,
+                            "E-mail/password is not valid", Toast.LENGTH_SHORT);
                     invalidInput.setGravity(Gravity.CENTER, 0,60);
                     invalidInput.show();
                     emailInput.setText("");
                     pwInput.setText("");
                 }
 
-            }
-        });
-
-        passwordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // go to password reminder screen
             }
         });
 
@@ -65,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        TODO: swap this out for LoginManager stuff
+    */
     // to add if more time: salt + hashing function for password
     // store only hashed pw in DB, hash inputtedPw and then check against DB
     boolean loginSuccessful(String email, String pw) {
@@ -80,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         */
 
         // for testing dialogue Toast
-        return false;
+        return true;
     }
 }
 
