@@ -12,7 +12,7 @@ import java.net.URL;
 
 
 
-class APIHandler {
+public class APIHandler {
 
     public APIHandler () {
         // Nothing to see here
