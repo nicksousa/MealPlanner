@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="145dp"
             android:layout_margin="10dp"
-            android:src="@drawable/borscht"
             android:scaleType="centerInside"/>
 
     </LinearLayout>
@@ -118,6 +117,7 @@
     </RelativeLayout>
 
     <ListView
+        android:id="@+id/ingredientsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 

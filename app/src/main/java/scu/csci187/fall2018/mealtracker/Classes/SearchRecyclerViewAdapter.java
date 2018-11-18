@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Fragments.SearchFragment;
 import scu.csci187.fall2018.mealtracker.R;
 
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.MyViewHolder> {
@@ -19,12 +21,15 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     private List<String> meals;
     private List<String> picUrls;
     private ItemClickListener clickListener;
+    SearchFragment sourceFragment;
     Context mContext;
 
-    public SearchRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls) {
+    public SearchRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls,
+                                                        SearchFragment sourceFragment) {
         this.meals = meals;
         this.picUrls = picUrls;
         this.mContext = context;
+        this.sourceFragment = sourceFragment;
     }
 
     @Override
@@ -33,12 +38,19 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         View view = LayoutInflater.from(mContext).inflate(R.layout.search_item, parent, false);
         final MyViewHolder vHolder = new MyViewHolder(view);
 
+        // create and attach ClickListener for both image and frame of Search Item
         vHolder.imView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                Toast.makeText(mContext, "TEST CLICK:  " +
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+            }
+        });
+        vHolder.searchLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
+                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
 
@@ -61,12 +73,14 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imView;
         private TextView itemName;
+        private TableLayout searchLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            imView = itemView.findViewById(R.id.searchPic);
+            imView = itemView.findViewById(R.id.searchMealPic);
             itemName = itemView.findViewById(R.id.searchMealname);
+            searchLayout = itemView.findViewById(R.id.searchTableLayout);
             itemView.setOnClickListener(this);
         }
 

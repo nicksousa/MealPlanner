@@ -23,7 +23,7 @@
         <item
             android:id="@+id/navI_settings"
             android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:title="User Preferences" />
         <item
             android:id="@+id/action_logout"
             android:icon="@drawable/ic_exit"
