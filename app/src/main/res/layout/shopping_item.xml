@@ -7,15 +7,21 @@
         android:id="@+id/shoppingMealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:text="MEAL NAME"/>
-
-    <LinearLayout
-        android:id="@+id/checkboxLayout"
+    <TextView
+        android:id="@+id/shoppingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:textSize="10sp"
+        android:text="MEAL NAME"/>
 
-    </LinearLayout>
+    <!--
+        <ListView
+            android:id="@+id/shoppingMealIngredientsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+-->
 
 </LinearLayout>
