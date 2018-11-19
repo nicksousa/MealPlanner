@@ -7,8 +7,12 @@ public class Query {
 
     private JSONArray value;
 
-    Query (JSONArray resultsInput) {
+    public Query (JSONArray resultsInput) {
         value = resultsInput;
+    }
+
+    public Query () {
+        this.value = null;
     }
 
     public Recipe getRecipeAtIndex(int index) {

@@ -9,18 +9,18 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import android.os.AsyncTask;
 
 
 
-public class APIHandler {
+public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
 
-    public APIHandler () {
-        // Nothing to see here
-    }
-
+//    private Query resultQuery;
 
     // private URL url = new URL("https://api.edamam.com/search?q=chicken&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a&from=0&to=3&calories=591-722&health=alcohol-free");
-    public Query queryAPI(String assembledQuery) {
+    @Override
+    protected Query doInBackground(QueryParam... myParams) {
+
 
         // TODO For reference. Please remove later. String test = "https://api.edamam.com/search?q=chicken&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a&from=0&to=3&calories=591-722&health=alcohol-free";
 
@@ -29,7 +29,7 @@ public class APIHandler {
         JSONObject json = null;
 
 
-
+        String assembledQuery = (myParams[0]).assembleSearchURL();
 
         // Get JSON from API
         try {
@@ -71,4 +71,5 @@ public class APIHandler {
         return query;
 
     }
+
 }

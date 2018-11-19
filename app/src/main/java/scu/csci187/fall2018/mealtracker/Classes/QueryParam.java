@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class QueryParam {
 
     private String diet;
-    private ArrayList<String> healthLabels;
+    private ArrayList<String> healthLabels = new ArrayList<String>();
     private int calorieMax;
     private int calorieMin;
     private int timeMax;
@@ -78,16 +78,24 @@ public class QueryParam {
         result = result + "time=" + this.timeMin + "-" + this.timeMax + "&";
 
         // Set query param
-        result = "q=" + this.query + "&";
-
-        // Add in health labels
-        for (int i = 0; i < this.healthLabels.size(); ++i) {
-            String andSign = "&";
-            if (i == 0) {
-                andSign = "";
+        result = result + "q=" + this.query;
+        if (this.healthLabels.size() < 1) {
+            // Do Nothing
+        } else {
+            result = result + "&";
+            // Add in health labels
+            for (int i = 0; i < this.healthLabels.size(); ++i) {
+                String andSign = "&";
+                if (i == 0) {
+                    andSign = "";
+                }
+                result = result + andSign + "health=" + this.healthLabels.get(i);
             }
-            result = result + andSign + "health=" + this.healthLabels.get(i);
+
         }
+
+        // Add API ID and APP ID to URL
+        result = result + "&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a";
         return result;
     }
 }

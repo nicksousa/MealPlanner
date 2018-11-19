@@ -9,6 +9,7 @@ import android.widget.TextView;
 import scu.csci187.fall2018.mealtracker.Classes.*;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import scu.csci187.fall2018.mealtracker.R;
 
@@ -32,18 +33,25 @@ public class TestActivity extends AppCompatActivity {
         qptest.setTimeMax(75);
         qptest.setTimeMin(30);
         qptest.setDiet("low-fat");
-        String search = qptest.assembleSearchURL();
+        //String search = qptest.assembleSearchURL();
 
 
-        APIHandler handler = new APIHandler();
-
-        Query query = handler.queryAPI(search);
+        APIHandler apiHandler = new APIHandler();
+        Query query;
+        try {
+            query = apiHandler.execute(qptest).get();
+        } catch (ExecutionException e) {
+           query = null;
+        } catch (InterruptedException e) {
+            query = null;
+        }
 
         Recipe recipe = query.getRecipeAtIndex(0);
 
+
         Ingredients ingredients = recipe.ingredients();
 
-        data = new ArrayList<>();
+        ArrayList<String> data = new ArrayList<>();
         data.add("---------Food stats----------");
         data.add("Calories = " + recipe.calories());
         data.add("Carbs = " + recipe.carbs());
@@ -66,7 +74,7 @@ public class TestActivity extends AppCompatActivity {
         data.add("Text = " + ingredients.getIngredientAtIndex(0).text());
         data.add("Weight = " + ingredients.getIngredientAtIndex(0).weight());
 
-        ArrayAdapter<String> lvAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
+        ArrayAdapter<String> lvAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
         lv.setAdapter(lvAdapter);
 
 
