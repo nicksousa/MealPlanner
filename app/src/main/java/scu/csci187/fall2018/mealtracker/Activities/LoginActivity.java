@@ -16,10 +16,29 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton, createAccountButton;
     EditText emailInput, pwInput;
 
+    Button go;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
+        /* TEST STUFF
+
+         */
+
+        go = findViewById(R.id.goToTest);
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), TestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+            END TEST STUFF
+         */
 
         loginButton = findViewById(R.id.login);
         createAccountButton = findViewById(R.id.createAccount);
@@ -54,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), CreateAccount.class);
+                Intent intent = new Intent(getBaseContext(), CreateAccountActivity.class);
                 startActivity(intent);
             }
         });

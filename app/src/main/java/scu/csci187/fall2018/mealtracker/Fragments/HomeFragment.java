@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,28 +61,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     public void populateListDataFromDB() {
         upcomingMeals = new ArrayList<>();
         upcomingDates = new ArrayList<>();
@@ -90,7 +70,7 @@ public class HomeFragment extends Fragment {
         historyPics = new ArrayList<>();
 
         // DB Calls to build List<string> meals/dates for upcoming + history
-        upcomingMeals.add("Meal 1");
+        upcomingMeals.add("ZZZZZZZZZZZZZZ");
         upcomingMeals.add("Meal 2");
         upcomingMeals.add("Meal 3");
         upcomingMeals.add("Meal 4");
@@ -114,16 +94,52 @@ public class HomeFragment extends Fragment {
 
     public void createAndAttachRVAdapters() {
         HomeRecyclerViewAdapter upcomingAdapter = new HomeRecyclerViewAdapter(getContext(),
-                upcomingMeals, upcomingDates, upcomingPics);
+                                    upcomingMeals, upcomingDates, upcomingPics, this);
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.HORIZONTAL, false));
+                                 LinearLayoutManager.HORIZONTAL, false));
         rvUpcoming.setAdapter(upcomingAdapter);
 
         HomeRecyclerViewAdapter historyAdapter = new HomeRecyclerViewAdapter(getContext(),
-                historyMeals, historyDates, historyPics);
+                                    historyMeals, historyDates, historyPics, this);
         rvHistory.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayout.HORIZONTAL, false));
+                                        LinearLayout.HORIZONTAL, false));
         rvHistory.setAdapter(historyAdapter);
+    }
+
+    // Create then display Meal Detail fragment using mealName
+    public void showMealDetail(String mealName, String picURL) {
+        MealDetailFragment newFragment = new MealDetailFragment();
+        Bundle b = new Bundle();
+        b.putString("mealName", mealName);
+        b.putString("picURL", picURL);
+        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
+        newFragment.setArguments(b);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(getId(), newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     /**

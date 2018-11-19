@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import scu.csci187.fall2018.mealtracker.R;
 
-public class CreateAccount extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     EditText inFirstName, inLastName, inEmail, inPassword, inHeight, inWeight;
     Button buttonRegister, buttonBack;

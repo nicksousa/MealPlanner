@@ -8,6 +8,14 @@
     android:background="@color/colorPrimary"
     tools:context=".Activities.LoginActivity">
 
+    <Button
+        android:id="@+id/goToTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Test Activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="300dp"
