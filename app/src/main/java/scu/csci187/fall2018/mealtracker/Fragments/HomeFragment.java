@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import scu.csci187.fall2018.mealtracker.Classes.HomeRecyclerViewAdapter;
+import scu.csci187.fall2018.mealtracker.Classes.Recipe;
 import scu.csci187.fall2018.mealtracker.R;
 
 
@@ -62,6 +64,29 @@ public class HomeFragment extends Fragment {
     }
 
     public void populateListDataFromDB() {
+        APIHandler apiHandler = new APIHandler();
+        /*
+            Call the DB accession file;
+            Return list here as meals;
+         */
+
+        // Meals should be given DB values (bookmark links)
+        ArrayList<String> meals = new ArrayList<>();
+        ArrayList<Recipe> recipes = new ArrayList<>();
+
+        for (int i = 0; i < meals.size(); ++i) {
+            String API_IDs = "&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a";
+            Recipe returnedRecipe = apiHandler.getJSONFromURL( meals.get(i) + API_IDs);
+            recipes.add(returnedRecipe);
+        }
+
+        for (int i = 0; i < recipes.size(); ++i) {
+            upcomingMeals.add(recipes.get(i).name());
+            // upcomingDates.add(/* TODO: Don't have data SQL queries. When we have them add this */);
+            upcomingPics.add(recipes.get(i).imageUrl());
+        }
+
+
         upcomingMeals = new ArrayList<>();
         upcomingDates = new ArrayList<>();
         upcomingPics = new ArrayList<>();

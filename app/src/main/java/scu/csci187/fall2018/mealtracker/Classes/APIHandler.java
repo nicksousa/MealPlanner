@@ -15,9 +15,6 @@ package scu.csci187.fall2018.mealtracker.Classes;
 
 public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
 
-//    private Query resultQuery;
-
-    // private URL url = new URL("https://api.edamam.com/search?q=chicken&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a&from=0&to=3&calories=591-722&health=alcohol-free");
     @Override
     protected Query doInBackground(QueryParam... myParams) {
 
