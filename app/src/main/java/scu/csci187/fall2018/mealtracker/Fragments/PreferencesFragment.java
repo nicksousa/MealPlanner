@@ -26,6 +26,7 @@ import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
 public class PreferencesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
+    private UserPreferences userPrefs;
     private EditText calorieLow, calorieHigh, maxTimeInMinutes;
     private RadioGroup radioDietLabels;
     private RadioButton radioButton;
@@ -98,6 +99,8 @@ public class PreferencesFragment extends Fragment {
                 kosher.isChecked(), gluten.isChecked(), paleo.isChecked(), shellfish.isChecked(),
                 dairy.isChecked(), treenut.isChecked(), peanut.isChecked(), egg.isChecked());
 
+        // Set member var with val that can be accessed.
+        this.userPrefs = newPreferences;
         /*
             TODO: ERROR CHECKING INPUT FOR CALORIES, TIME
                  SAVE TO DATABASE
@@ -144,12 +147,23 @@ public class PreferencesFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        PrefToSearch pts;
+        try {
+            pts = (PrefToSearch) getActivity();
+            pts.sendPreferences(userPrefs);
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Error in retrieving data. Please try again");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public UserPreferences getPreferences() {
+        return this.userPrefs;
     }
 
 
@@ -167,4 +181,9 @@ public class PreferencesFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(String id);
     }
+
+    public interface PrefToSearch {
+         void sendPreferences(UserPreferences userPrefs);
+    }
+
 }

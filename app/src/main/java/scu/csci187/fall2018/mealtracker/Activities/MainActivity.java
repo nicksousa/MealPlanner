@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
 import scu.csci187.fall2018.mealtracker.Fragments.HomeFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.MealDetailFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.PreferencesFragment;
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_PREFERENCES = "preferences";
     private static final String TAG_HISTORY = "history";
     private static final String TAG_MEALDETAIL = "mealdetail";
+    private Fragment fragment;
     public static String CURRENT_TAG = TAG_HOME;
+
 
     private String[] activityTitles;
 
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 // update the main content by replacing fragments
-                Fragment fragment = getHomeFragment();
+                this.fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
@@ -220,5 +223,11 @@ public class MainActivity extends AppCompatActivity
 
     public void onFragmentInteraction(String id) {
 
+    }
+
+    public void sendPreferences(UserPreferences userPrefs) {
+
+        SearchFragment searchFragment = (SearchFragment) this.fragment;
+        searchFragment.receivePreferences(userPrefs);
     }
 }

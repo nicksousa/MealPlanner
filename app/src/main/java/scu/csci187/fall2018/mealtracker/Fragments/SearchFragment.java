@@ -17,7 +17,10 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Classes.PreferencesTranslator;
+import scu.csci187.fall2018.mealtracker.Classes.QueryParam;
 import scu.csci187.fall2018.mealtracker.Classes.SearchRecyclerViewAdapter;
+import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
 import scu.csci187.fall2018.mealtracker.R;
 
 
@@ -27,7 +30,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView rvSearch;
     private EditText searchText;
     private Button buttonSearch;
-
+    private UserPreferences userPrefs;
 
     private List<String> meals, pics;
 
@@ -76,6 +79,7 @@ public class SearchFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
@@ -92,9 +96,23 @@ public class SearchFragment extends Fragment {
 
         searchString = searchText.getText().toString();
 
-        // get filter values
-        // build query
-        // execute query
+        // Get filters
+        // Construct Query
+        QueryParam qp = new QueryParam();
+
+
+        // TODO implement once I have the necessary methods.
+        // All methods called by storageHandler are placeholders.
+        // storageHandler deosn't exist. Read above todo.
+        qp.setQuery(searchString);
+        PreferencesTranslator prefsTranslator = new PreferencesTranslator();
+
+        prefsTranslator.setDietInQueryParam(userPrefs, qp);
+        prefsTranslator.setHealthLabelsInQueryParam(userPrefs, qp);
+
+
+
+
 
         populateSearchListFromAPI();
         createAndAttachRVAdapter();
@@ -140,6 +158,8 @@ public class SearchFragment extends Fragment {
         transaction.commit();
     }
 
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -153,5 +173,8 @@ public class SearchFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(String id);
+    }
+    public void receivePreferences(UserPreferences userPrefs) {
+        this.userPrefs = userPrefs;
     }
 }

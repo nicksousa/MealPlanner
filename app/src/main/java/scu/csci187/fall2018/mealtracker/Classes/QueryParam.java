@@ -29,7 +29,7 @@ public class QueryParam {
         return healthLabels;
     }
 
-    public void setHealthLabels(String healthLabel) {
+    public void addHealthLabels(String healthLabel) {
         this.healthLabels.add(healthLabel);
     }
 
