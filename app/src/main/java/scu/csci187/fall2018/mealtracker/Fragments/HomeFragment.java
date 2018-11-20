@@ -22,7 +22,7 @@ import scu.csci187.fall2018.mealtracker.R;
 
 
 public class HomeFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
 
     private TextView todaysCalories, macroCarb, macroProtein, macroFat;
     private RecyclerView rvUpcoming, rvHistory;
@@ -46,19 +46,20 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homescreen_layout, container, false);
+        bindViews(view);
+        populateListDataFromDB();
+        createAndAttachRVAdapters();
+
+        return view;
+    }
+
+    private void bindViews(View view) {
         todaysCalories = view.findViewById(R.id.todaysCalories);
         macroCarb = view.findViewById(R.id.macroCarb);
         macroProtein = view.findViewById(R.id.macroProtein);
         macroFat = view.findViewById(R.id.macroFat);
-
         rvUpcoming = view.findViewById(R.id.rvUpcoming);
         rvHistory = view.findViewById(R.id.rvHistory);
-
-        populateListDataFromDB();
-        createAndAttachRVAdapters();
-        // create and attach adapters to Upcoming and History RecycleViews
-
-        return view;
     }
 
     public void populateListDataFromDB() {
@@ -120,40 +121,4 @@ public class HomeFragment extends Fragment {
         transaction.commit();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String id);
-    }
 }

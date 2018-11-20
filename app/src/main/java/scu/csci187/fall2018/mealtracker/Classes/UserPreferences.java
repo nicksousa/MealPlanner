@@ -1,30 +1,26 @@
 package scu.csci187.fall2018.mealtracker.Classes;
 
-enum Diet {
-    NONE (-1), LOWCARB(0), LOWFAT(1), HIGHPROTEIN(2), HIGHFIBER(3), LOWSODIUM(4);
-
-    private int val;
-    Diet(int val) { this.val = val;}
-    public int getVal() { return val; }
+enum DietLabel {
+    NONE, LOWCARB, LOWFAT, HIGHPROTEIN, HIGHFIBER, LOWSODIUM
 }
 
 public class UserPreferences {
 
-    private int calorieLow;
-    private int calorieHigh;
-    private int maxTimeInMinutes;
-    private int dietLabel;
-    private boolean vegetarian;
-    private boolean vegan;
-    private boolean pescatarian;
-    private boolean kosher;
-    private boolean gluten;
-    private boolean paleo;
-    private boolean shellfish;
-    private boolean dairy;
-    private boolean treenut;
-    private boolean peanut;
-    private boolean egg;
+    public int calorieLow;  // if both calorieLow = calorieHigh == 0, user did not specify a calorie range
+    public int calorieHigh;
+    public int maxTimeInMinutes;    // if maxTimeInMinutes == 0, user did not specify a max time
+    public int dietLabel;  // 0:none, 1:lowcarb, 2:lowfat, 3:highprotein, 4:highfiber, 5:lowsodium
+    public boolean vegetarian;
+    public boolean vegan;
+    public boolean pescatarian;
+    public boolean kosher;
+    public boolean gluten;
+    public boolean paleo;
+    public boolean shellfish;
+    public boolean dairy;
+    public boolean treenut;
+    public boolean peanut;
+    public boolean egg;
 
     public UserPreferences(int calorieLow, int calorieHigh, int maxTimeInMinutes, int dietLabel,
                            boolean vegetarian, boolean vegan, boolean pescatarian,
