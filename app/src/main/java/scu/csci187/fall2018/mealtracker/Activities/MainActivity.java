@@ -48,13 +48,10 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_FILTERS = "filters";
     public static String CURRENT_TAG = TAG_HOME;
 
-    private String[] activityTitles;
-
     private FiltersFragment mFiltersFragment;
     private SearchFragment mSearchFragment;
 
-    private boolean shouldLoadHomeFragOnBackPress = true;
-    private Handler mHandler;
+    private boolean shouldLoadHomeFragOnBackPress = false;
 
     private String searchText = "";
 
@@ -65,11 +62,6 @@ public class MainActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-
-        mHandler = new Handler();
-
-        // load toolbar titles from string resources
-        activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
         setUpNavigationView();
 
@@ -88,26 +80,6 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        /*// Cross fade effect between fragments
-        Runnable mPendingRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // update the main content by replacing fragments
-                Fragment fragment = getHomeFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
-                fragmentTransaction.addToBackStack(CURRENT_TAG);
-                fragmentTransaction.commit();
-            }
-        };
-
-        // If mPendingRunnable is not null, then add to the message queue
-        if (mPendingRunnable != null) {
-            mHandler.post(mPendingRunnable);
-        }
-*/
         Fragment fragment = getHomeFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
@@ -126,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                 return new HomeFragment();
             case 1:
                 searchText = "";
-               return new SearchFragment();
+                return new SearchFragment();
             case 2:
                 return new FavoritesFragment();
             case 3:
@@ -265,5 +237,5 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
     }
-
+//zzzzz
 }

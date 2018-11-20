@@ -58,7 +58,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    // Ensures that Activity has implemented FiltersFragmentListener
+    // Ensures that Activity has implemented SearchFragmentListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
             mCallback = (SearchFragment.SearchFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement FiltersFragmentListener");
+                    + " must implement SearchFragmentListener");
         }
     }
 
