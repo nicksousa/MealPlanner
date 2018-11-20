@@ -16,10 +16,15 @@ import android.widget.Toast;
 import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import scu.csci187.fall2018.mealtracker.Classes.HomeRecyclerViewAdapter;
 import scu.csci187.fall2018.mealtracker.Classes.Recipe;
+import scu.csci187.fall2018.mealtracker.Classes.RecipeRecord;
+import scu.csci187.fall2018.mealtracker.Classes.RecipeRecordComparator;
 import scu.csci187.fall2018.mealtracker.R;
 
 
@@ -71,50 +76,73 @@ public class HomeFragment extends Fragment {
          */
 
         // Meals should be given DB values (bookmark links)
-        ArrayList<String> meals = new ArrayList<>();
+        ArrayList<String> bookmarkedMeals = new ArrayList<>();
         ArrayList<Recipe> recipes = new ArrayList<>();
 
-        for (int i = 0; i < meals.size(); ++i) {
+        for (int i = 0; i < bookmarkedMeals.size(); ++i) {
             String API_IDs = "&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a";
-            Recipe returnedRecipe = apiHandler.getJSONFromURL( meals.get(i) + API_IDs);
+            String currentMealLink = bookmarkedMeals.get(i);
+            Recipe returnedRecipe = new Recipe( apiHandler.getJSONFromURL( currentMealLink + API_IDs) );
             recipes.add(returnedRecipe);
         }
 
-        for (int i = 0; i < recipes.size(); ++i) {
-            upcomingMeals.add(recipes.get(i).name());
-            // upcomingDates.add(/* TODO: Don't have data SQL queries. When we have them add this */);
-            upcomingPics.add(recipes.get(i).imageUrl());
-        }
+        // Initialize lists that correspond to UI elements (Parallel)
 
-
+        // Parallel set -> (Upcoming)
         upcomingMeals = new ArrayList<>();
         upcomingDates = new ArrayList<>();
         upcomingPics = new ArrayList<>();
+
+        // Parallel set -> (History)
         historyMeals = new ArrayList<>();
         historyDates = new ArrayList<>();
         historyPics = new ArrayList<>();
 
-        // DB Calls to build List<string> meals/dates for upcoming + history
-        upcomingMeals.add("ZZZZZZZZZZZZZZ");
-        upcomingMeals.add("Meal 2");
-        upcomingMeals.add("Meal 3");
-        upcomingMeals.add("Meal 4");
-        upcomingDates.add("11/1/1");
-        upcomingDates.add("11/1/1");
-        upcomingDates.add("11/1/1");
-        upcomingDates.add("11/1/1");
-        upcomingPics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-        upcomingPics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
-        upcomingPics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-        upcomingPics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
+
+        // Ensure ArrayLists are empty;
+        upcomingMeals.clear();
+        upcomingDates.clear();
+        upcomingPics.clear();
+        historyMeals.clear();
+        historyDates.clear();
+        historyPics.clear();
+
+        ArrayList<RecipeRecord> recipeRecords = new ArrayList<>();
+
+        // TODO fix DB call when we get the SQL Query functions.
+        // Currently this line is incomplete because r.getDataFromDBAsString()
+        // is a placeholder and not functional.
+        for (Recipe r : recipes) {
+            recipeRecords.add(new RecipeRecord(r.linkInAPI(), r.name(), r.getDateFromDBAsString(), r.imageUrl()));
+        }
 
 
-        historyMeals.add("hist 1");
-        historyMeals.add("hist 2");
-        historyDates.add("0/0/0");
-        historyDates.add("4/4/4/");
-        historyPics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
-        historyPics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
+        // Sort the recipe records to make it easier to input them in order
+        // into their respective ArrayLists.
+        Collections.sort(recipeRecords, new RecipeRecordComparator());
+
+
+        // Separating the recipe records into parallel ArrayLists is
+        // important because the UI is currently built this way.
+        // Note: The compareTo is untested and might be backwards
+        // TODO when we have data check that this works
+        for (RecipeRecord rr : recipeRecords) {
+            if (rr.getDate().compareTo(new Date()) >= 0) {
+                upcomingMeals.add(rr.getName());
+                upcomingDates.add(rr.getDateString());
+                upcomingPics.add(rr.getPicURL());
+            }
+        }
+        for (RecipeRecord rr : recipeRecords) {
+            if (rr.getDate().compareTo(new Date()) < 0) {
+                historyMeals.add(rr.getName());
+                historyDates.add(rr.getDateString());
+                historyPics.add(rr.getPicURL());
+            }
+        }
+
+
+
     }
 
     public void createAndAttachRVAdapters() {
