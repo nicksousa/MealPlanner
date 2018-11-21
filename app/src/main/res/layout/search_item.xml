@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TableRow>
+    <TableRow
+        android:clickable="false">
         <FrameLayout
             android:id="@+id/searchItemFrame"
             android:layout_width="0dp"
@@ -80,7 +81,7 @@
             android:id="@+id/searchMealname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SEARCH MEAL NAME HERE"/>
+            android:text="@string/search_meal_name_here"/>
     </TableRow>
 
 </TableLayout>

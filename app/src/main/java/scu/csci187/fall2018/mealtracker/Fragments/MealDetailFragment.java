@@ -23,7 +23,7 @@ import scu.csci187.fall2018.mealtracker.R;
 
 public class MealDetailFragment extends Fragment {
     private TextView tvMealName;
-    private ImageView ivMealPic;
+    private ImageView ivMealPic, ivFavorite;
     private RatingBar mealRatingBar;
     private ListView lvIngredients;
     private Button buttonToRecipe;
@@ -31,6 +31,7 @@ public class MealDetailFragment extends Fragment {
     private String mealName, picURL, recipeURL;
     private ArrayList<String> ingredientsList;
     private int mealRating;
+    private boolean mealIsFavorited;
 
 
     public MealDetailFragment() {
@@ -53,6 +54,7 @@ public class MealDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.mealdetail_layout, container, false);
         bindViews(view);
         attachUIListeners();
+        setupRatingBarAndFavorite();
 
         ingredientsList = new ArrayList<>();
 
@@ -67,6 +69,7 @@ public class MealDetailFragment extends Fragment {
     private void bindViews(View view) {
         tvMealName = view.findViewById(R.id.mealDetailName);
         ivMealPic = view.findViewById(R.id.mealDetailPic);
+        ivFavorite = view.findViewById(R.id.buttonMealDetailFavorite);
         mealRatingBar = view.findViewById(R.id.mealRatingBar);
         lvIngredients = view.findViewById(R.id.ingredientsList);
         buttonToRecipe = view.findViewById(R.id.buttonGoToRecipe);
@@ -75,17 +78,8 @@ public class MealDetailFragment extends Fragment {
     private void attachUIListeners() {
         attachRecipeButtonListener();
         attachRatingBarListener();
+        attachFavoritesListener();
     }
-
-    private void attachRatingBarListener() {
-        mealRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                updateUserMealRating((int)rating);
-            }
-        });
-    }
-
     private void attachRecipeButtonListener() {
         buttonToRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +94,53 @@ public class MealDetailFragment extends Fragment {
         });
     }
 
-    public void updateUserMealRating(int newRating) {
+    private void attachRatingBarListener() {
+        mealRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                updateUserMealRatingInDb((int)rating);
+            }
+        });
+    }
+
+    private void attachFavoritesListener() {
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mealIsFavorited) {
+                    mealIsFavorited = false;
+                    ivFavorite.setImageResource(R.drawable.ic_favorite_no);
+                    updateMealFavoriteInDb(mealIsFavorited);
+                } else {
+                    mealIsFavorited = true;
+                    ivFavorite.setImageResource(R.drawable.ic_favorite);
+                    updateMealFavoriteInDb(mealIsFavorited);
+                }
+            }
+        });
+    }
+
+    private void setupRatingBarAndFavorite() {
         /*
-            TODO: Add meal rating to DB for User
+            TODO: Query DB for is meal favorited, meal rating
+         */
+        mealIsFavorited = true; // query result here
+        if(mealIsFavorited)
+            ivFavorite.setImageResource(R.drawable.ic_favorite);
+        else
+            ivFavorite.setImageResource(R.drawable.ic_favorite_no);
+        mealRating = 2; // query result here
+        mealRatingBar.setRating(mealRating);
+    }
+
+    private void updateUserMealRatingInDb(int newRating) {
+        /*
+            TODO: Write meal rating to DB for User
+         */
+    }
+    private void updateMealFavoriteInDb(boolean isFavorited) {
+        /*
+            TODO: Write meal favorite to DB for User
          */
     }
 
