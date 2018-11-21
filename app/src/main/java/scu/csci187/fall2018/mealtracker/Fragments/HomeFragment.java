@@ -1,6 +1,5 @@
 package scu.csci187.fall2018.mealtracker.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,16 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.json.JSONObject;
+
 import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import scu.csci187.fall2018.mealtracker.Classes.HomeRecyclerViewAdapter;
+import scu.csci187.fall2018.mealtracker.Classes.QueryParam;
 import scu.csci187.fall2018.mealtracker.Classes.Recipe;
 import scu.csci187.fall2018.mealtracker.Classes.RecipeRecord;
 import scu.csci187.fall2018.mealtracker.Classes.RecipeRecordComparator;
@@ -70,7 +72,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void populateListDataFromDB() {
-        APIHandler apiHandler = new APIHandler();
         /*
             Call the DB accession file;
             Return list here as meals;
@@ -80,10 +81,29 @@ public class HomeFragment extends Fragment {
         ArrayList<String> bookmarkedMeals = new ArrayList<>();
         ArrayList<Recipe> recipes = new ArrayList<>();
 
+        bookmarkedMeals.add("http://www.edamam.com/ontologies/edamam.owl#recipe_3da1169eb633a5e4607890ebf7dee89f");
+        bookmarkedMeals.add("http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98");
+
+
+        QueryParam qp = new QueryParam();
         for (int i = 0; i < bookmarkedMeals.size(); ++i) {
-            String API_IDs = "&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a";
             String currentMealLink = bookmarkedMeals.get(i);
-            Recipe returnedRecipe = new Recipe( apiHandler.getJSONFromURL( currentMealLink + API_IDs) );
+            String formattedLink = qp.getFormattedBookmarkURL(currentMealLink);
+            JSONObject json;
+            //  TODO Make an alias for execute so its not as ugly with the get() hanging off the end. Not intuitive.
+            try {
+                json = new APIHandler().execute( formattedLink ).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                json = new JSONObject();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                json = new JSONObject();
+
+            }
+
+
+            Recipe returnedRecipe = new Recipe(json);
             recipes.add(returnedRecipe);
         }
 
@@ -100,21 +120,13 @@ public class HomeFragment extends Fragment {
         historyPics = new ArrayList<>();
 
 
-        // Ensure ArrayLists are empty;
-        upcomingMeals.clear();
-        upcomingDates.clear();
-        upcomingPics.clear();
-        historyMeals.clear();
-        historyDates.clear();
-        historyPics.clear();
-
         ArrayList<RecipeRecord> recipeRecords = new ArrayList<>();
 
-        // TODO fix DB call when we get the SQL Query functions.
+        // TODO fix DB call (hardcoded date) when we get the SQL Query functions.
         // Currently this line is incomplete because r.getDataFromDBAsString()
         // is a placeholder and not functional.
         for (Recipe r : recipes) {
-            recipeRecords.add(new RecipeRecord(r.linkInAPI(), r.name(), r.getDateFromDBAsString(), r.imageUrl()));
+            recipeRecords.add(new RecipeRecord(r.linkInAPI(), r.name(),"12/1/2018", r.imageUrl()));
         }
 
 
@@ -128,13 +140,20 @@ public class HomeFragment extends Fragment {
         // Note: The compareTo is untested and might be backwards
         // TODO when we have data check that this works
         for (RecipeRecord rr : recipeRecords) {
+            System.out.println("    1 Date Values. new first and then mine");
+            System.out.println(new Date().toString());
+            System.out.println(rr.getDate().toString());
             if (rr.getDate().compareTo(new Date()) >= 0) {
+
                 upcomingMeals.add(rr.getName());
                 upcomingDates.add(rr.getDateString());
                 upcomingPics.add(rr.getPicURL());
             }
         }
         for (RecipeRecord rr : recipeRecords) {
+            System.out.println("    2 Date Values. new first and then mine");
+            System.out.println(new Date().toString());
+            System.out.println(rr.getDate().toString());
             if (rr.getDate().compareTo(new Date()) < 0) {
                 historyMeals.add(rr.getName());
                 historyDates.add(rr.getDateString());

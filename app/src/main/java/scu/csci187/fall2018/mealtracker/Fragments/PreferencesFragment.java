@@ -1,5 +1,6 @@
 package scu.csci187.fall2018.mealtracker.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -24,8 +25,7 @@ public class PreferencesFragment extends Fragment {
     private CheckBox vegetarian, vegan, pescatarian, kosher, gluten, paleo, shellfish,
                         dairy, treenut, peanut, egg;
     int lowCalorie, highCalorie, maxTime;
-    boolean boolVegetarian, boolVegan, boolPescatarian, boolKosher, boolGluten, boolPaleo,
-                boolShellfish, boolDairy, boolTreenut, boolPeanut, boolEgg;
+
     Button buttonSavePrefs;
 
     public PreferencesFragment() {
@@ -148,10 +148,6 @@ public class PreferencesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    public UserPreferences getPreferences() {
-        return this.userPrefs;
     }
 
 

@@ -26,5 +26,7 @@ public class Query {
         return recipeToReturn;
     }
 
-
+    public JSONArray getValue() {
+        return this.value;
+    }
 }

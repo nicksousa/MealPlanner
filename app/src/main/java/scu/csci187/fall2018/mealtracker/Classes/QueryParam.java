@@ -1,4 +1,6 @@
 package scu.csci187.fall2018.mealtracker.Classes;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class QueryParam {
@@ -97,5 +99,20 @@ public class QueryParam {
         // Add API ID and APP ID to URL
         result = result + "&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a";
         return result;
+    }
+
+    public String getFormattedBookmarkURL (String bookmarkURL) {
+        String baseString = "https://api.edamam.com/search?";
+        String apiKeys = "&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a";
+        String bookmarkKeyword = "r=";
+
+        String assembledQuery = null;
+        try {
+            assembledQuery = baseString + bookmarkKeyword + URLEncoder.encode(bookmarkURL, "UTF-8") + apiKeys;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            assembledQuery = "";
+        }
+        return assembledQuery;
     }
 }

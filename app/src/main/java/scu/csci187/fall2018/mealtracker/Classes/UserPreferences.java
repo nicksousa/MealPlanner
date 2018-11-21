@@ -43,4 +43,63 @@ public class UserPreferences {
         this.egg = egg;
     }
 
+    public int getCalorieLow() {
+        return calorieLow;
+    }
+
+    public int getCalorieHigh() {
+        return calorieHigh;
+    }
+
+    public int getMaxTimeInMinutes() {
+        return maxTimeInMinutes;
+    }
+
+    public int getDietLabel() {
+        return dietLabel;
+    }
+
+    public boolean isVegetarian() {
+        return vegetarian;
+    }
+
+    public boolean isVegan() {
+        return vegan;
+    }
+
+    public boolean isPescatarian() {
+        return pescatarian;
+    }
+
+    public boolean isKosher() {
+        return kosher;
+    }
+
+    public boolean isGluten() {
+        return gluten;
+    }
+
+    public boolean isPaleo() {
+        return paleo;
+    }
+
+    public boolean isShellfish() {
+        return shellfish;
+    }
+
+    public boolean isDairy() {
+        return dairy;
+    }
+
+    public boolean isTreenut() {
+        return treenut;
+    }
+
+    public boolean isPeanut() {
+        return peanut;
+    }
+
+    public boolean isEgg() {
+        return egg;
+    }
 }

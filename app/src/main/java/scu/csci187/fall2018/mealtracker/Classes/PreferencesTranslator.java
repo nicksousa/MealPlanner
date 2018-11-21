@@ -10,9 +10,9 @@ public class PreferencesTranslator {
         // Nothing to see here
     }
 
-    public void getDietPreference(UserPreferences userPref, QueryParam qp) {
+    public void setDietInQueryParam(UserPreferences userPref, QueryParam qp) {
 
-        switch (userPref.getDiet()) {
+        switch (userPref.getDietLabel()) {
             case -1:    qp.setDiet("");
                         return;
             case 0:     qp.setDiet("low-carb");

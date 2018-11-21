@@ -37,18 +37,9 @@ public class TestActivity extends AppCompatActivity {
 
 
         APIHandler apiHandler = new APIHandler();
-        Query query;
-        try {
-            query = apiHandler.execute(qptest).get();
-        } catch (ExecutionException e) {
-            query = null;
-        } catch (InterruptedException e) {
-            query = null;
-        }
+        Query query = apiHandler.search(qptest);
 
         Recipe recipe = query.getRecipeAtIndex(0);
-
-
         Ingredients ingredients = recipe.ingredients();
 
         ArrayList<String> data = new ArrayList<>();
@@ -63,7 +54,7 @@ public class TestActivity extends AppCompatActivity {
         data.add("Sugar = " + recipe.sugar());
         data.add("Time To Cook = " + recipe.timeToCook());
         data.add("-----------Recipe Metadata----------");
-        data.add("SourceOfRecipeURL = " + recipe.sourceUrl());
+        data.add("SourceOfRecipeURL = " + recipe.linkToInstructions());
         data.add("ShareLink = " + recipe.shareLink());
         data.add("BookmarkLink = " + recipe.linkInAPI());
         data.add("image url = " + recipe.imageUrl());

@@ -14,11 +14,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 import scu.csci187.fall2018.mealtracker.Classes.PreferencesTranslator;
+import scu.csci187.fall2018.mealtracker.Classes.Query;
 import scu.csci187.fall2018.mealtracker.Classes.QueryParam;
+import scu.csci187.fall2018.mealtracker.Classes.Recipe;
 import scu.csci187.fall2018.mealtracker.Classes.SearchRecyclerViewAdapter;
 import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
 import scu.csci187.fall2018.mealtracker.R;
@@ -35,6 +42,7 @@ public class SearchFragment extends Fragment {
 
     private SearchFragmentListener mCallback;
     private List<String> meals, pics;
+    private List<Recipe> recipes;
 
     private String myInputString = "";
 
@@ -97,7 +105,13 @@ public class SearchFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                executeSearch();
+                try {
+                    executeSearch();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -110,7 +124,7 @@ public class SearchFragment extends Fragment {
     /*
         TODO: implement executeSearch()
      */
-    private void executeSearch() {
+    private void executeSearch() throws ExecutionException, InterruptedException {
         String searchString;
 
         searchString = searchText.getText().toString();
@@ -121,8 +135,7 @@ public class SearchFragment extends Fragment {
 
 
         // TODO implement once I have the necessary methods.
-        // All methods called by storageHandler are placeholders.
-        // storageHandler deosn't exist. Read above todo.
+        // configure queryParams from userPrefs
         qp.setQuery(searchString);
         PreferencesTranslator prefsTranslator = new PreferencesTranslator();
 
@@ -130,30 +143,37 @@ public class SearchFragment extends Fragment {
         prefsTranslator.setHealthLabelsInQueryParam(userPrefs, qp);
 
 
+        // execute the search
+        APIHandler apiHandler = new APIHandler();
+        Query query = apiHandler.search(qp);
 
 
 
-        populateSearchListFromAPI();
+
+
+
+        populateSearchListFromAPI(query);
         createAndAttachRVAdapter();
     }
 
     /*
         TODO: implement populateListDataFromAPI()
      */
-    private void populateSearchListFromAPI() {
+    private void populateSearchListFromAPI(Query query) {
+
+        // get Recipes from query and input into lists for visual representation
+
         meals = new ArrayList<>();
         pics = new ArrayList<>();
+        recipes = new ArrayList<>();
 
+        for(int i = 0; i < query.getValue().length(); ++i) {
+            Recipe currentRecipe = query.getRecipeAtIndex(i);
+            meals.add(currentRecipe.name());
+            pics.add(currentRecipe.imageUrl());
+            recipes.add(currentRecipe);
+        }
 
-        // DB Calls to build List<string> meals/pics for search
-        meals.add("Meal 1");
-        meals.add("Meal 2");
-        meals.add("Meal 3");
-        meals.add("Meal 4");
-        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
-        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
     }
 
     private void createAndAttachRVAdapter() {
