@@ -1,82 +1,17 @@
 package scu.csci187.fall2018.mealtracker.Classes;
 
-/*
-import android.app.Activity;
+
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
-import scu.csci187.fall2018.mealtracker.R;
-
-public class ShoppingListAdapter extends ArrayAdapter<String> { //implements View.OnClickListener {
-
-    private ArrayList<String> data;
-    Context mContext;
-    TextView shoppingMealName;
-    ListView shoppingIngredientsList;
-
-
-    public ShoppingListAdapter(@NonNull Context context, ArrayList<String> list) {
-        super(context, 0, list);
-        this.mContext = context;
-        this.data = list;
-    }
-
-    static class ViewHolder {
-        public TextView tvMealName;
-        public ListView lvIngredientsList;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if(convertView == null) {
-            holder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.shopping_item, parent, false);
-            holder.tvMealName = convertView.findViewById(R.id.shoppingMealName);
-            holder.lvIngredientsList = convertView.findViewById(R.id.shoppingMealIngredientsList);
-            convertView.setTag(holder);
-        }
-        else
-            holder = (ViewHolder) convertView.getTag();
-
-        holder.tvMealName.setText(data.get(position));
-
-
-        ArrayList<String> ingredients = new ArrayList<>();
-            /*
-                TODO: lookup ingredients list, store in arraylist
-             *
-            ingredients.add("1/2 oz chicken");
-            ingredients.add("5 lbs salt");
-            ingredients.add("1 bay leaf");
-            ingredients.add("23 ibuprofen");
-            ingredients.add("6 rabbit's foot");
-            ingredients.add("1/2 can Red Bull");
-            ingredients.add("2 spinach leaves");
-            ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter(mContext, 0, ingredients);
-            holder.lvIngredientsList.setAdapter(ingredientsAdapter);
-
-
-        return convertView;
-    }
-}
-*/
-
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -86,13 +21,21 @@ public class ShoppingListAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
     private ArrayList<String> meals;
-    private TextView tvMealName, shoppingText;
-    private ListView lvIngredients;
+    private UpdateShoppingList mCallback;
+
+    private TextView tvMealName;
+    private LinearLayout ingredientsContainer;
+    private ArrayList<ArrayList<CheckBox>> data;
 
     public ShoppingListAdapter(Context context, ArrayList<String> meals) {
         super(context, R.layout.shopping_item, meals);
         this.mContext = context;
         this.meals = meals;
+        this.data = new ArrayList<>();
+    }
+
+    public void setUpdateShoppingListListener(UpdateShoppingList listener) {
+        this.mCallback = listener;
     }
 
     @Override
@@ -101,31 +44,101 @@ public class ShoppingListAdapter extends ArrayAdapter<String> {
 
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.shopping_item, parent, false);
+
         }
+
         tvMealName = convertView.findViewById(R.id.shoppingMealName);
-      //  lvIngredients = convertView.findViewById(R.id.shoppingMealIngredientsList);
-        shoppingText = convertView.findViewById(R.id.shoppingText);
+        ingredientsContainer = convertView.findViewById(R.id.shoppingItemIngredients);
 
         tvMealName.setText(mealname);
-        /*
-                TODO: lookup ingredients list, store in arraylist
-        */
-        ArrayList<String> ingredients = new ArrayList<>();
-        ingredients.add("1/2 oz chicken");
-        ingredients.add("5 lbs salt");
-        ingredients.add("1 bay leaf");
-        ingredients.add("23 ibuprofen");
-        ingredients.add("6 rabbit's foot");
-        ingredients.add("1/2 can Red Bull");
-        ingredients.add("2 spinach leaves");
 
-        String ingredientsList = "";
-        for(String x : ingredients) {
-            ingredientsList += x + System.getProperty("line.separator");
+        Toast toast = Toast.makeText(getContext(), "Size of Meals " + meals.size(), Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.show();
+
+        for(String mealName : meals) {
+            ArrayList<CheckBox> boxes = new ArrayList<>();
+            ArrayList<String> ingredients = new ArrayList<>();
+
+            /*
+                TODO: lookup ingredients list, store in ArrayList ingredients
+            */
+
+            ingredients.add("1/2 oz chicken");
+            ingredients.add("5 lbs salt");
+            ingredients.add("1 bay leaf");
+            ingredients.add("23 ibuprofen");
+            ingredients.add("6 rabbit's foot");
+            ingredients.add("1/2 can Red Bull");
+            ingredients.add("2 spinach leaves");
+
+            for(String item : ingredients) {
+                final String itemName = item;
+
+                CheckBox cb = new CheckBox(getContext());
+                int y = View.generateViewId();
+                cb.setText(Integer.toString(y));
+                cb.setId(y);
+                cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        ArrayList<Integer> indicesOfFullyCheckedMeals = getFullyCheckedMeals();
+                        if(indicesOfFullyCheckedMeals.size() > 0) {
+                            Toast toast = Toast.makeText(getContext(), "Remove Indices " + indicesOfFullyCheckedMeals.size(), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP, 0, 0);
+                            toast.show();
+                            removeCheckboxesForMeals(indicesOfFullyCheckedMeals);
+                            mCallback.removeMealFromShoppingList(indicesOfFullyCheckedMeals);
+                        }
+                    }
+                });
+                boxes.add(cb);
+                ingredientsContainer.addView(cb);
+            }
+            data.add(boxes);
         }
-        shoppingText.setText(ingredientsList);
+
 
         return convertView;
     }
 
+    private ArrayList<Integer> getFullyCheckedMeals() {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for(ArrayList<CheckBox> cbList : data) {
+            if(allIngredientsMarked(cbList))
+                result.add(data.indexOf(cbList));
+        }
+        return result;
+    }
+
+    private boolean allIngredientsMarked(ArrayList<CheckBox> cbList) {
+        for(CheckBox cb : cbList) {
+            if(!cb.isChecked())
+                return false;
+        }
+        return true;
+    }
+
+    private void removeCheckboxesForMeals(ArrayList<Integer> indices) {
+        ArrayList<CheckBox> boxes;
+
+
+        for(Integer x : indices) {
+            boxes = data.get(x.intValue());
+
+            for(CheckBox cb : boxes) {
+                Toast toast1 = Toast.makeText(getContext(), "Remove CB " + cb.getId(), Toast.LENGTH_SHORT);
+                toast1.setGravity(Gravity.CENTER, 0, 0);
+                toast1.show();
+                int id = cb.getId();
+                View temp = ingredientsContainer.findViewById(id);
+                ingredientsContainer.removeView(temp);
+            }
+        }
+    }
+
+    public interface UpdateShoppingList {
+        void removeMealFromShoppingList(ArrayList<Integer> indices);
+    }
 }

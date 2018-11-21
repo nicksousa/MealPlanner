@@ -7,9 +7,10 @@
 
     <TableRow>
         <FrameLayout
+            android:id="@+id/searchItemFrame"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75">
+            android:layout_weight="0.5">
 
             <ImageView
                 android:id="@+id/searchMealPic"
@@ -25,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:layout_gravity="center">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,14 +38,38 @@
                     android:gravity="center"
                     android:textSize="14sp"/>
                 <ImageButton
-                    android:id="@+id/buttonAdd"
+                    android:id="@+id/buttonAddShopping"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_addshopping"
                     android:scaleType="fitCenter"/>
             </LinearLayout>
-
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:layout_gravity="center">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/addFavoriteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_to_favorites"
+                    android:gravity="center"
+                    android:textSize="14sp"/>
+                <ImageButton
+                    android:id="@+id/buttonAddFavorite"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_favorite"
+                    android:scaleType="fitCenter"/>
+            </LinearLayout>
         </RelativeLayout>
     </TableRow>
 
