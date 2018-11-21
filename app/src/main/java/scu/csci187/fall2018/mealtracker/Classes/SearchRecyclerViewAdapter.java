@@ -62,11 +62,6 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                /*
-                        TODO: callback to Main Activity to update shopping list
-                */
-                vHolder.tvAddShopping.setText("                          ");
-                vHolder.addToShoppingList.setImageResource(R.drawable.ic_done);
 
             }
         });
@@ -74,15 +69,8 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                /*
-                        TODO: DB call to add Meal to favorites
-                     */
-                vHolder.tvAddFavorite.setText("                          ");
-                vHolder.addToFavorites.setImageResource(R.drawable.ic_done);
-
             }
         });
-
         return vHolder;
     }
 
@@ -104,7 +92,6 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         private TextView itemName;
         private TableLayout searchLayout;
         private ImageButton addToShoppingList, addToFavorites;
-        private TextView tvAddShopping, tvAddFavorite;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -114,9 +101,6 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             searchLayout = itemView.findViewById(R.id.searchTableLayout);
             addToShoppingList = itemView.findViewById(R.id.buttonAddShopping);
             addToFavorites = itemView.findViewById(R.id.buttonAddFavorite);
-            tvAddShopping = itemView.findViewById(R.id.addText);
-            tvAddFavorite = itemView.findViewById(R.id.addFavoriteText);
-
             itemView.setOnClickListener(this);
         }
 
