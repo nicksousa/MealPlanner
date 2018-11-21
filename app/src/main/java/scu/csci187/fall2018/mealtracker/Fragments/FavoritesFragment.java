@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import scu.csci187.fall2018.mealtracker.Classes.FavoritesRecyclerViewAdapter;
+import scu.csci187.fall2018.mealtracker.Classes.RecipeRecord;
 import scu.csci187.fall2018.mealtracker.R;
 
 
 public class FavoritesFragment extends Fragment {
     private RecyclerView rvFavorites;
     private List<String> meals, pics;
+    private List<RecipeRecord> recipeRecords;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -52,16 +54,25 @@ public class FavoritesFragment extends Fragment {
         meals = new ArrayList<>();
         pics = new ArrayList<>();
 
+
         // DB Calls to build List<string> meals/pics for search
-        meals.add("Meal 1");
-        meals.add("Meal 2");
-        meals.add("Meal 3");
-        meals.add("Meal 4");
-        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
-        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
+
+
+        for (RecipeRecord rr : recipeRecords) {
+            meals.add(rr.getName());
+            pics.add(rr.getPicURL());
+        }
+
     }
+
+//        meals.add("Meal 1");
+//        meals.add("Meal 2");
+//        meals.add("Meal 3");
+//        meals.add("Meal 4");
+//        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
+//        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
+//        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
+//        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
 
     public void createAndAttachRVAdapter() {
         FavoritesRecyclerViewAdapter favoritesAdapter = new FavoritesRecyclerViewAdapter(getContext(),
