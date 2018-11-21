@@ -2,6 +2,11 @@
 
 Note: "initialbranch" is the master branch
 
+Code files are in directory: https://github.com/csci187Nutrition/MealPlanner/tree/initialbranch/app/src/main/java/scu/csci187/fall2018/mealtracker
+
+Layouts and other resources are in directory:
+https://github.com/csci187Nutrition/MealPlanner/tree/initialbranch/app/src/main/res
+
 
 People who worked on this project:
 

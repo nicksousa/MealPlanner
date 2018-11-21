@@ -6,38 +6,39 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/sfTvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/user_preferences"
+            android:text="@string/search_filters"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvCal"
+            android:id="@+id/sfTvCal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitle"
+            android:layout_below="@id/sfTvTitle"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/calorie_range"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/sfTvTitle" />
 
         <EditText
-            android:id="@+id/calorieLow"
+            android:id="@+id/sfCalorieLow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -54,11 +55,11 @@
             android:layout_marginTop="55dp"
             android:layout_marginEnd="8dp"
             android:text=" to "
-            app:layout_constraintEnd_toStartOf="@+id/calorieHigh"
+            app:layout_constraintEnd_toStartOf="@+id/sfCalorieHigh"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/calorieHigh"
+            android:id="@+id/sfCalorieHigh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -69,7 +70,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTimeRange"
+            android:id="@+id/sfTvTimeRange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -77,20 +78,20 @@
             android:text="@string/time_range"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCal" />
+            app:layout_constraintTop_toBottomOf="@+id/sfTvCal" />
 
         <EditText
-            android:id="@+id/timeHigh"
+            android:id="@+id/sfTimeHigh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="92dp"
             android:hint="@string/in_minutes"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calorieLow" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCalorieLow" />
 
         <TextView
-            android:id="@+id/tvDietLabels"
+            android:id="@+id/sfTvDietLabels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -98,48 +99,48 @@
             android:text="@string/diet_labels"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTimeRange" />
+            app:layout_constraintTop_toBottomOf="@+id/sfTvTimeRange" />
 
         <RadioGroup
-            android:id="@+id/radioDietLabels"
+            android:id="@+id/sfRadioDietLabels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDietLabels">
+            app:layout_constraintTop_toBottomOf="@id/sfTvDietLabels">
 
             <RadioButton
-                android:id="@+id/settingsNone"
+                android:id="@+id/sfSettingsNone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="None"/>
 
             <RadioButton
-                android:id="@+id/settingsLowCarb"
+                android:id="@+id/sfSettingsLowCarb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/low_carb" />
 
             <RadioButton
-                android:id="@+id/settingsLowFat"
+                android:id="@+id/sfSettingsLowFat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/low_fat" />
 
             <RadioButton
-                android:id="@+id/settingsHighProtein"
+                android:id="@+id/sfSettingsHighProtein"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/high_protein" />
 
             <RadioButton
-                android:id="@+id/settingsHighFiber"
+                android:id="@+id/sfSettingsHighFiber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/high_fiber" />
 
             <RadioButton
-                android:id="@+id/settingsLowSodium"
+                android:id="@+id/sfSettingsLowSodium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/low_sodium" />
@@ -147,7 +148,7 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/healthLabels"
+            android:id="@+id/sfHealthLabels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -155,128 +156,128 @@
             android:text="@string/health_labels"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioDietLabels" />
+            app:layout_constraintTop_toBottomOf="@+id/sfRadioDietLabels" />
 
         <CheckBox
-            android:id="@+id/checkboxVegetarian"
+            android:id="@+id/sfCheckboxVegetarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/vegetarian"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/healthLabels" />
+            app:layout_constraintTop_toBottomOf="@+id/sfHealthLabels" />
 
         <CheckBox
-            android:id="@+id/checkboxVegan"
+            android:id="@+id/sfCheckboxVegan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/vegan"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/healthLabels" />
+            app:layout_constraintTop_toBottomOf="@+id/sfHealthLabels" />
 
         <CheckBox
-            android:id="@+id/checkboxKosher"
+            android:id="@+id/sfCheckboxKosher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/kosher"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxVegan" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxVegan" />
 
         <CheckBox
-            android:id="@+id/checkboxPaleo"
+            android:id="@+id/sfCheckboxPaleo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/paleo"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxKosher" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxKosher" />
 
         <CheckBox
-            android:id="@+id/checkboxPescatarian"
+            android:id="@+id/sfCheckboxPescatarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/pescatarian"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxVegetarian" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxVegetarian" />
 
         <CheckBox
-            android:id="@+id/checkboxGluten"
+            android:id="@+id/sfCheckboxGluten"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/gluten_free"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxPescatarian" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxPescatarian" />
 
         <CheckBox
-            android:id="@+id/checkboxDairy"
+            android:id="@+id/sfCheckboxDairy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/dairy_free"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxPaleo" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxPaleo" />
 
         <CheckBox
-            android:id="@+id/checkboxShellfish"
+            android:id="@+id/sfCheckboxShellfish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/shellfish_free"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxGluten" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxGluten" />
 
         <CheckBox
-            android:id="@+id/checkboxPeanut"
+            android:id="@+id/sfCheckboxPeanut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/peanut_free"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxTreenut" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxTreenut" />
 
         <CheckBox
-            android:id="@+id/checkboxTreenut"
+            android:id="@+id/sfCheckboxTreenut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/tree_nut_free"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxShellfish" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxShellfish" />
 
         <CheckBox
-            android:id="@+id/checkboxEgg"
+            android:id="@+id/sfCheckboxEgg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/egg_free"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/checkboxDairy" />
+            app:layout_constraintTop_toBottomOf="@+id/sfCheckboxDairy" />
 
         <Button
-            android:id="@+id/buttonSavePrefs"
+            android:id="@+id/sfButtonDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/save_preferences"
+            android:text="&lt; Save Filters"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/checkboxPeanut" />
+            app:layout_constraintTop_toBottomOf="@id/sfCheckboxPeanut" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"

@@ -1,6 +1,7 @@
 package scu.csci187.fall2018.mealtracker.Activities;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.net.Uri;
@@ -14,8 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.logging.Filter;
 
 import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
+import scu.csci187.fall2018.mealtracker.Fragments.FiltersFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.HomeFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.MealDetailFragment;
 import scu.csci187.fall2018.mealtracker.Fragments.PreferencesFragment;
@@ -25,11 +30,8 @@ import scu.csci187.fall2018.mealtracker.Fragments.ShoppingListFragment;
 import scu.csci187.fall2018.mealtracker.R;
 
 public class MainActivity extends AppCompatActivity
-        implements HomeFragment.OnFragmentInteractionListener,
-                    SearchFragment.OnFragmentInteractionListener,
-                    FavoritesFragment.OnFragmentInteractionListener,
-                    PreferencesFragment.OnFragmentInteractionListener,
-                    MealDetailFragment.OnFragmentInteractionListener {
+                            implements SearchFragment.SearchFragmentListener,
+                                        FiltersFragment.FiltersFragmentListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -42,27 +44,30 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_FAVORITES = "favorites";
     private static final String TAG_SHOPPING = "shopping";
     private static final String TAG_PREFERENCES = "preferences";
-    private static final String TAG_HISTORY = "history";
     private static final String TAG_MEALDETAIL = "mealdetail";
+    private static final String TAG_FILTERS = "filters";
     private Fragment fragment;
     public static String CURRENT_TAG = TAG_HOME;
 
-
     private String[] activityTitles;
+
+    private FiltersFragment mFiltersFragment;
+    private SearchFragment mSearchFragment;
 
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+
+    private String searchText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_nav_drawer);
         toolbar = findViewById(R.id.toolbar);
-
-        mHandler = new Handler();
-
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+
+        mHandler = new Handler();
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
@@ -79,26 +84,23 @@ public class MainActivity extends AppCompatActivity
     private void loadHomeFragment() {
         selectNavMenu();
 
-        /*
-            TODO: clean code-ify this if statement
-         */
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
             drawer.closeDrawers();
             return;
         }
 
-        // Cross fade effect between fragments
+        /*// Cross fade effect between fragments
         Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
                 // update the main content by replacing fragments
-                this.fragment = getHomeFragment();
+                Fragment fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commitAllowingStateLoss();
+                fragmentTransaction.addToBackStack(CURRENT_TAG);
+                fragmentTransaction.commit();
             }
         };
 
@@ -106,10 +108,16 @@ public class MainActivity extends AppCompatActivity
         if (mPendingRunnable != null) {
             mHandler.post(mPendingRunnable);
         }
+*/
+        Fragment fragment = getHomeFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                android.R.anim.fade_out);
+        fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+        fragmentTransaction.addToBackStack(CURRENT_TAG);
+        fragmentTransaction.commit();
 
         drawer.closeDrawers();
-
-        // refresh toolbar menu
         invalidateOptionsMenu();
     }
 
@@ -118,7 +126,8 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 return new HomeFragment();
             case 1:
-                return new SearchFragment();
+                searchText = "";
+               return new SearchFragment();
             case 2:
                 return new FavoritesFragment();
             case 3:
@@ -139,7 +148,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
 
-            // This method will trigger on item Click of navigation menu
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
@@ -167,13 +175,16 @@ public class MainActivity extends AppCompatActivity
                         navItemIndex = 0;
                 }
 
-                //Checking if the item is in checked state or not, if not make it in checked state
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
                 } else {
                     menuItem.setChecked(true);
                 }
                 menuItem.setChecked(true);
+
+                // clear fragment backstack
+                FragmentManager fm = getSupportFragmentManager();
+                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 loadHomeFragment();
 
@@ -207,8 +218,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        // This code loads home fragment when back key is pressed
-        // when user is in other fragment than home
+        // Loads home fragment on back press if not currently in home fragment
         if (shouldLoadHomeFragOnBackPress) {
             if (navItemIndex != 0) {
                 navItemIndex = 0;
@@ -221,8 +231,19 @@ public class MainActivity extends AppCompatActivity
         super.onBackPressed();
     }
 
-    public void onFragmentInteraction(String id) {
+    // Implement listener for Search Fragment
+    public void goToFilters(String inputString) {
 
+        searchText = inputString;   // save search string if user inputted one before going to filters
+        mFiltersFragment = (FiltersFragment) getSupportFragmentManager().findFragmentByTag(TAG_FILTERS);
+        if(mFiltersFragment == null) {
+            mFiltersFragment = new FiltersFragment();
+        }
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        fragmentTransaction.replace(R.id.frame, mFiltersFragment, "filters");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     public void sendPreferences(UserPreferences userPrefs) {
@@ -230,4 +251,25 @@ public class MainActivity extends AppCompatActivity
         SearchFragment searchFragment = (SearchFragment) this.fragment;
         searchFragment.receivePreferences(userPrefs);
     }
+
+    // Implement listener for Filters Fragment
+    public void sendFiltersToSearch(UserPreferences filters) {
+        Toast.makeText(this, "Search filters saved", Toast.LENGTH_SHORT).show();
+        mSearchFragment = (SearchFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH);
+        if(mSearchFragment == null) {
+            mSearchFragment = new SearchFragment();
+        }
+
+        mSearchFragment.applyFiltersToSearch(searchText, filters);
+        CURRENT_TAG = TAG_SEARCH;
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                android.R.anim.fade_out);
+        fragmentTransaction.replace(R.id.frame, mSearchFragment, "search");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
+
 }

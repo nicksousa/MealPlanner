@@ -19,7 +19,6 @@ import scu.csci187.fall2018.mealtracker.R;
 
 
 public class FavoritesFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
     private RecyclerView rvFavorites;
     private List<String> meals, pics;
 
@@ -39,34 +38,11 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorites_layout, container, false);
-
         rvFavorites = view.findViewById(R.id.rvFavorites);
         populateFavoritesListFromAPI();
         createAndAttachRVAdapter();
 
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /*
@@ -75,7 +51,6 @@ public class FavoritesFragment extends Fragment {
     public void populateFavoritesListFromAPI() {
         meals = new ArrayList<>();
         pics = new ArrayList<>();
-
 
         // DB Calls to build List<string> meals/pics for search
         meals.add("Meal 1");
@@ -107,20 +82,5 @@ public class FavoritesFragment extends Fragment {
         transaction.replace(getId(), newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String id);
     }
 }

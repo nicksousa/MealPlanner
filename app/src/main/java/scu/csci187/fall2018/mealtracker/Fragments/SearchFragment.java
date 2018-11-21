@@ -26,13 +26,17 @@ import scu.csci187.fall2018.mealtracker.R;
 
 public class SearchFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
     private RecyclerView rvSearch;
     private EditText searchText;
     private Button buttonSearch;
+    private ImageButton buttonFilters;
     private UserPreferences userPrefs;
+    private UserPreferences inputtedFilters;
 
+    private SearchFragmentListener mCallback;
     private List<String> meals, pics;
+
+    private String myInputString = "";
 
     public SearchFragment() {
         // Required empty public constructor
@@ -42,7 +46,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            myInputString = savedInstanceState.getString("inputString");
         }
     }
 
@@ -50,34 +54,21 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_layout, container, false);
-
-        rvSearch = view.findViewById(R.id.rvSearch);
-        searchText = view.findViewById(R.id.inputSearchTerms);
-        buttonSearch = view.findViewById(R.id.buttonSearchGo);
-
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeSearch();
-            }
-        });
+        bindViews(view);
+        addButtonListeners();
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
+    // Ensures that Activity has implemented FiltersFragmentListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof SearchFragment.SearchFragmentListener) {
+            mCallback = (SearchFragment.SearchFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement FiltersFragmentListener");
         }
 
     }
@@ -85,13 +76,41 @@ public class SearchFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mCallback = null;
+    }
+
+    private void bindViews(View view) {
+        rvSearch = view.findViewById(R.id.rvSearch);
+        searchText = view.findViewById(R.id.inputSearchTerms);
+        buttonFilters = view.findViewById(R.id.buttonSearchFilters);
+        buttonSearch = view.findViewById(R.id.buttonSearchGo);
+    }
+
+    private void addButtonListeners() {
+        buttonFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFiltersFragment();
+            }
+        });
+
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeSearch();
+            }
+        });
+    }
+
+    private void openFiltersFragment() {
+        myInputString = searchText.getText().toString();
+        mCallback.goToFilters(myInputString);
     }
 
     /*
         TODO: implement executeSearch()
      */
-    public void executeSearch() {
+    private void executeSearch() {
         String searchString;
 
         searchString = searchText.getText().toString();
@@ -121,7 +140,7 @@ public class SearchFragment extends Fragment {
     /*
         TODO: implement populateListDataFromAPI()
      */
-    public void populateSearchListFromAPI() {
+    private void populateSearchListFromAPI() {
         meals = new ArrayList<>();
         pics = new ArrayList<>();
 
@@ -137,11 +156,16 @@ public class SearchFragment extends Fragment {
         pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
     }
 
-    public void createAndAttachRVAdapter() {
+    private void createAndAttachRVAdapter() {
         SearchRecyclerViewAdapter searchAdapter = new SearchRecyclerViewAdapter(getContext(),
                 meals, pics, this);
         rvSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvSearch.setAdapter(searchAdapter);
+    }
+
+    public void applyFiltersToSearch(String inputText, UserPreferences filters) {
+        inputtedFilters = filters;
+        searchText.setText(inputText);
     }
 
     // Create then display Meal Detail fragment using mealName
@@ -158,21 +182,8 @@ public class SearchFragment extends Fragment {
         transaction.commit();
     }
 
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String id);
+    public interface SearchFragmentListener {
+        void goToFilters(String inputString);
     }
     public void receivePreferences(UserPreferences userPrefs) {
         this.userPrefs = userPrefs;

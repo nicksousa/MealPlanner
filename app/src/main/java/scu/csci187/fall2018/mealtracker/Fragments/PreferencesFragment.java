@@ -1,24 +1,15 @@
 package scu.csci187.fall2018.mealtracker.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import scu.csci187.fall2018.mealtracker.R;
 import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
@@ -29,7 +20,6 @@ public class PreferencesFragment extends Fragment {
     private UserPreferences userPrefs;
     private EditText calorieLow, calorieHigh, maxTimeInMinutes;
     private RadioGroup radioDietLabels;
-    private RadioButton radioButton;
     private int selectedRadioId = -1;
     private CheckBox vegetarian, vegan, pescatarian, kosher, gluten, paleo, shellfish,
                         dairy, treenut, peanut, egg;
@@ -55,13 +45,18 @@ public class PreferencesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.preferences_layout, container, false);
 
+        bindViews(view);
+        addUIListeners();
+        populatePreferencesFromDB();
+
+        return view;
+    }
+
+    private void bindViews(View view) {
         calorieLow = view.findViewById(R.id.calorieLow);
         calorieHigh = view.findViewById(R.id.calorieHigh);
-
         maxTimeInMinutes = view.findViewById(R.id.timeHigh);
-
         radioDietLabels = view.findViewById(R.id.radioDietLabels);
-
         vegetarian = view.findViewById(R.id.checkboxVegetarian);
         vegan = view.findViewById(R.id.checkboxVegan);
         pescatarian = view.findViewById(R.id.checkboxPescatarian);
@@ -73,14 +68,12 @@ public class PreferencesFragment extends Fragment {
         treenut = view.findViewById(R.id.checkboxTreenut);
         peanut = view.findViewById(R.id.checkboxPeanut);
         egg = view.findViewById(R.id.checkboxEgg);
-
         buttonSavePrefs = view.findViewById(R.id.buttonSavePrefs);
+    }
 
-        addUIListeners();
-
-        populatePreferencesFromDB();
-
-        return view;
+    public void addUIListeners() {
+        addRadioListener();
+        addSavePreferencesButtonListener();
     }
 
     public void populatePreferencesFromDB(){
@@ -105,11 +98,6 @@ public class PreferencesFragment extends Fragment {
             TODO: ERROR CHECKING INPUT FOR CALORIES, TIME
                  SAVE TO DATABASE
          */
-    }
-
-    public void addUIListeners() {
-        addRadioListener();
-        addSavePreferencesButtonListener();
     }
 
     public void addRadioListener() {

@@ -69,6 +69,11 @@
     <string name="space2x" />
     <string name="search_terms">Search terms</string>
     <string name="search">Search</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
+    <string name="in_minutes">in minutes</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="search_filters">SEARCH FILTERS</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
