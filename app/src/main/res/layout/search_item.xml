@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TableRow>
+    <TableRow
+        android:clickable="false">
         <FrameLayout
             android:id="@+id/searchItemFrame"
             android:layout_width="0dp"
@@ -21,56 +22,49 @@
                 android:layout_height="150dp"
                 android:src="@drawable/frame"/>
         </FrameLayout>
-        <RelativeLayout
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0.25"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_to_shopping_list"
+                android:gravity="center"
+                android:textSize="14sp"/>
+            <ImageButton
+                android:id="@+id/buttonAddShopping"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_addshopping"
+                android:scaleType="fitCenter"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:layout_gravity="center">
-            <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:id="@+id/addFavoriteText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/addText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_to_shopping_list"
-                    android:gravity="center"
-                    android:textSize="14sp"/>
-                <ImageButton
-                    android:id="@+id/buttonAddShopping"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_addshopping"
-                    android:scaleType="fitCenter"/>
-            </LinearLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:layout_gravity="center">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/addFavoriteText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_to_favorites"
-                    android:gravity="center"
-                    android:textSize="14sp"/>
-                <ImageButton
-                    android:id="@+id/buttonAddFavorite"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_favorite"
-                    android:scaleType="fitCenter"/>
-            </LinearLayout>
-        </RelativeLayout>
+                android:text="@string/add_to_favorites"
+                android:gravity="center"
+                android:textSize="14sp"/>
+            <ImageButton
+                android:id="@+id/buttonAddFavorite"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_favorite"
+                android:scaleType="fitCenter"/>
+        </LinearLayout>
     </TableRow>
 
     <TableRow>
@@ -80,7 +74,7 @@
             android:id="@+id/searchMealname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SEARCH MEAL NAME HERE"/>
+            android:text="@string/search_meal_name_here"/>
     </TableRow>
 
 </TableLayout>

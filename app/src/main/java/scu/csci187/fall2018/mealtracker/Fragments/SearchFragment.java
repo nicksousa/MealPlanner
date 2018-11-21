@@ -144,7 +144,7 @@ public class SearchFragment extends Fragment {
         String searchString;
 
         searchString = searchText.getText().toString();
-
+/*
         // Get filters
         // Construct Query
         QueryParam queryParam = new QueryParam();
@@ -162,9 +162,9 @@ public class SearchFragment extends Fragment {
 
         Query query = new APIHandler().search(queryParam);
 
+*/
 
-
-
+        Query query = new Query();
 
 
         populateSearchListFromAPI(query);
@@ -181,13 +181,16 @@ public class SearchFragment extends Fragment {
         meals = new ArrayList<>();
         pics = new ArrayList<>();
         recipes = new ArrayList<>();
-
+/*
         for(int i = 0; i < query.getValue().length(); ++i) {
             Recipe currentRecipe = query.getRecipeAtIndex(i);
             meals.add(currentRecipe.name());
             pics.add(currentRecipe.imageUrl());
             recipes.add(currentRecipe);
         }
+        */
+        meals.add("Something");
+        pics.add("https://images-na.ssl-images-amazon.com/images/I/31JBFCmsKxL.jpg");
     }
 
     private void createAndAttachRVAdapter() {
@@ -204,6 +207,9 @@ public class SearchFragment extends Fragment {
 
     // Create then display Meal Detail fragment using mealName
     public void showMealDetail(String mealName, String picURL) {
+        /*
+            TODO: Integrate
+         */
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("mealName", mealName);
