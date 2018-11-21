@@ -6,17 +6,17 @@ package scu.csci187.fall2018.mealtracker.Classes;
         import java.io.BufferedReader;
         import java.io.IOException;
         import java.io.InputStreamReader;
-        import java.io.StringReader;
         import java.net.MalformedURLException;
         import java.net.URL;
+        import java.util.concurrent.ExecutionException;
+
         import android.os.AsyncTask;
 
 
 
-public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
+public class APIHandler extends AsyncTask<String, Void, JSONObject> {
 
-    @Override
-    protected Query doInBackground(QueryParam... myParams) {
+    public Query search(QueryParam qp) {
 
 
         // TODO For reference. Please remove later. String test = "https://api.edamam.com/search?q=chicken&app_id=b957081d&app_key=889e79d32df59ed1621b6247b075e26a&from=0&to=3&calories=591-722&health=alcohol-free";
@@ -26,9 +26,15 @@ public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
         JSONObject json = null;
 
 
-        String assembledQuery = (myParams[0]).assembleSearchURL();
+        String assembledQuery = qp.assembleSearchURL();
 
-        json = getJSONFromURL(assembledQuery);
+        try {
+            json = this.execute(assembledQuery).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Get values. Currently a test to get recipe data:
 
@@ -45,7 +51,9 @@ public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
 
     }
 
-    public JSONObject getJSONFromURL (String assembledQuery) {
+
+    @Override
+    protected JSONObject doInBackground(String... assembledQuery) {
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -53,7 +61,7 @@ public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
         try {
 
             // Create the URL
-            URL url = new URL(assembledQuery);
+            URL url = new URL(assembledQuery[0]);
 
             // Access URL and save output to a buffer
             try (BufferedReader buffer = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
@@ -64,8 +72,10 @@ public class APIHandler extends AsyncTask<QueryParam, Void , Query> {
                 }
 
                 try {
-                    return (JSONObject) new JSONTokener(stringBuilder.toString()).nextValue();
+                    JSONArray jsonArray = ( (JSONArray) new JSONTokener(stringBuilder.toString()).nextValue() );
+                    return jsonArray.getJSONObject(0);
                 } catch (JSONException e) {
+                    e.printStackTrace();
                     return null;
                 }
             }

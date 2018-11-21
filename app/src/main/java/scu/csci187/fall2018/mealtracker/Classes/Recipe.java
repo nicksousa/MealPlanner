@@ -60,7 +60,7 @@ public class Recipe {
         }
     }
 
-    public String sourceUrl () {
+    public String linkToInstructions () {
         try {
             return value.getString("url");
         } catch (JSONException e) {
