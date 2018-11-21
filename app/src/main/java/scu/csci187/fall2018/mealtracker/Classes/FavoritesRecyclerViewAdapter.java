@@ -7,6 +7,7 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -76,14 +77,14 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imView;
         private TextView itemName;
-        private TableLayout favLayout;
+        private FrameLayout favLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             imView = itemView.findViewById(R.id.favoritesPic);
-            itemName = itemView.findViewById(R.id.mealName);
-            favLayout = itemView.findViewById(R.id.favItemLayout);
+            itemName = itemView.findViewById(R.id.favoritesMealName);
+            favLayout = itemView.findViewById(R.id.favoritesFrame);
             itemView.setOnClickListener(this);
         }
 

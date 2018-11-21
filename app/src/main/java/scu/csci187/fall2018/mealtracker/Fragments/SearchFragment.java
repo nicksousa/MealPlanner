@@ -2,17 +2,21 @@ package scu.csci187.fall2018.mealtracker.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,19 +59,29 @@ public class SearchFragment extends Fragment {
         if (getArguments() != null) {
             myInputString = savedInstanceState.getString("inputString");
         }
+        meals = new ArrayList<>();
+        pics = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_layout, container, false);
+
         bindViews(view);
         addButtonListeners();
+
+        /*
+            TODO: SAVE/RESTORE RVSEARCH STATE NOT WORKING
+         */
+        if(savedInstanceState != null) {
+            rvSearch.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable("RV_STATE"));
+        }
 
         return view;
     }
 
-    // Ensures that Activity has implemented FiltersFragmentListener
+    // Ensures that Activity has implemented SearchFragmentListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -75,7 +89,7 @@ public class SearchFragment extends Fragment {
             mCallback = (SearchFragment.SearchFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement FiltersFragmentListener");
+                    + " must implement SearchFragmentListener");
         }
 
     }
@@ -84,6 +98,15 @@ public class SearchFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mCallback = null;
+    }
+
+    /*
+        TODO: SAVE/RESTORE RVSEARCH STATE NOT WORKING
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("RV_STATE", rvSearch.getLayoutManager().onSaveInstanceState());
     }
 
     private void bindViews(View view) {
@@ -165,7 +188,6 @@ public class SearchFragment extends Fragment {
             pics.add(currentRecipe.imageUrl());
             recipes.add(currentRecipe);
         }
-
     }
 
     private void createAndAttachRVAdapter() {

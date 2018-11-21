@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -46,7 +49,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
                 sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
             }
         });
-        vHolder.searchLayout.setOnClickListener(new View.OnClickListener() {
+        vHolder.itemName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
@@ -54,6 +57,20 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             }
         });
 
+        // create and attach ClickListener for Add to ShoppingList, Favorites
+        vHolder.addToShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
+
+            }
+        });
+        vHolder.addToFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
+            }
+        });
         return vHolder;
     }
 
@@ -74,6 +91,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         private ImageView imView;
         private TextView itemName;
         private TableLayout searchLayout;
+        private ImageButton addToShoppingList, addToFavorites;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +99,8 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             imView = itemView.findViewById(R.id.searchMealPic);
             itemName = itemView.findViewById(R.id.searchMealname);
             searchLayout = itemView.findViewById(R.id.searchTableLayout);
+            addToShoppingList = itemView.findViewById(R.id.buttonAddShopping);
+            addToFavorites = itemView.findViewById(R.id.buttonAddFavorite);
             itemView.setOnClickListener(this);
         }
 
