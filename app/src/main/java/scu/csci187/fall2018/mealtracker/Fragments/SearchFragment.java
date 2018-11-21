@@ -37,7 +37,6 @@ public class SearchFragment extends Fragment {
     private EditText searchText;
     private Button buttonSearch;
     private ImageButton buttonFilters;
-    private UserPreferences userPrefs;
     private UserPreferences inputtedFilters;
 
     private SearchFragmentListener mCallback;
@@ -105,13 +104,7 @@ public class SearchFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    executeSearch();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                executeSearch();
             }
         });
     }
@@ -124,28 +117,27 @@ public class SearchFragment extends Fragment {
     /*
         TODO: implement executeSearch()
      */
-    private void executeSearch() throws ExecutionException, InterruptedException {
+    private void executeSearch() {
         String searchString;
 
         searchString = searchText.getText().toString();
 
         // Get filters
         // Construct Query
-        QueryParam qp = new QueryParam();
+        QueryParam queryParam = new QueryParam();
 
 
         // TODO implement once I have the necessary methods.
         // configure queryParams from userPrefs
-        qp.setQuery(searchString);
-        PreferencesTranslator prefsTranslator = new PreferencesTranslator();
+        queryParam.setQuery(searchString);
+        PreferencesTranslator preferencesTranslator = new PreferencesTranslator();
 
-        prefsTranslator.setDietInQueryParam(userPrefs, qp);
-        prefsTranslator.setHealthLabelsInQueryParam(userPrefs, qp);
-
+        preferencesTranslator.setDietInQueryParam(inputtedFilters, queryParam);
+        preferencesTranslator.setHealthLabelsInQueryParam(inputtedFilters, queryParam);
 
         // execute the search
-        APIHandler apiHandler = new APIHandler();
-        Query query = apiHandler.search(qp);
+
+        Query query = new APIHandler().search(queryParam);
 
 
 
@@ -204,8 +196,5 @@ public class SearchFragment extends Fragment {
 
     public interface SearchFragmentListener {
         void goToFilters(String inputString);
-    }
-    public void receivePreferences(UserPreferences userPrefs) {
-        this.userPrefs = userPrefs;
     }
 }

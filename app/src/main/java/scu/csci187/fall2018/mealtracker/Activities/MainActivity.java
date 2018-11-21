@@ -246,12 +246,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    public void sendPreferences(UserPreferences userPrefs) {
-
-        SearchFragment searchFragment = (SearchFragment) this.fragment;
-        searchFragment.receivePreferences(userPrefs);
-    }
-
     // Implement listener for Filters Fragment
     public void sendFiltersToSearch(UserPreferences filters) {
         Toast.makeText(this, "Search filters saved", Toast.LENGTH_SHORT).show();
