@@ -44,12 +44,12 @@
     <string name="register">Register</string>
     <string name="back">Back</string>
     <string name="favorited_meals">Favorited Meals</string>
-    <string name="upcoming_meals">Upcoming Meals</string>
+    <string name="upcoming_meals">Upcoming Scheduled Meals</string>
     <string name="today_s_calories">Today\'s Calories:</string>
     <string name="macros_g_c">Macros (g) C:</string>
     <string name="p">&#160;&#160;P:</string>
     <string name="f">&#160;&#160;F:</string>
-    <string name="history">History</string>
+    <string name="history">Meal History</string>
     <string name="date">DATE</string>
     <string name="name">NAME</string>
     <string name="e_mail">E-mail:</string>
@@ -74,6 +74,7 @@
     <string name="in_minutes">in minutes</string>
     <string name="shopping_list">Shopping List</string>
     <string name="search_filters">SEARCH FILTERS</string>
+    <string name="add_to_favorites">Add to Favorites</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
