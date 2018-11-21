@@ -163,6 +163,10 @@ public class SearchFragment extends Fragment {
         Query query = new APIHandler().search(queryParam);
 
 
+
+
+
+
         populateSearchListFromAPI(query);
         createAndAttachRVAdapter();
     }
@@ -184,7 +188,6 @@ public class SearchFragment extends Fragment {
             pics.add(currentRecipe.imageUrl());
             recipes.add(currentRecipe);
         }
-
     }
 
     private void createAndAttachRVAdapter() {
@@ -201,9 +204,6 @@ public class SearchFragment extends Fragment {
 
     // Create then display Meal Detail fragment using mealName
     public void showMealDetail(String mealName, String picURL) {
-        /*
-            TODO: Integrate
-         */
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("mealName", mealName);
