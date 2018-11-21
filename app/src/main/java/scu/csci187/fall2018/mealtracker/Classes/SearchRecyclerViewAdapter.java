@@ -61,6 +61,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         vHolder.addToShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
                 /*
                         TODO: callback to Main Activity to update shopping list
                 */
@@ -72,6 +73,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         vHolder.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position = vHolder.getAdapterPosition();
                 /*
                         TODO: DB call to add Meal to favorites
                      */
