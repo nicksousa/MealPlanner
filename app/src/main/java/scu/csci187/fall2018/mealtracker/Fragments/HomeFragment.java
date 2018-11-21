@@ -85,27 +85,7 @@ public class HomeFragment extends Fragment {
         bookmarkedMeals.add("http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98");
 
 
-        QueryParam qp = new QueryParam();
-        for (int i = 0; i < bookmarkedMeals.size(); ++i) {
-            String currentMealLink = bookmarkedMeals.get(i);
-            String formattedLink = qp.getFormattedBookmarkURL(currentMealLink);
-            JSONObject json;
-            //  TODO Make an alias for execute so its not as ugly with the get() hanging off the end. Not intuitive.
-            try {
-                json = new APIHandler().execute( formattedLink ).get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                json = new JSONObject();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                json = new JSONObject();
-
-            }
-
-
-            Recipe returnedRecipe = new Recipe(json);
-            recipes.add(returnedRecipe);
-        }
+        recipes = new APIHandler().getRecipesFromBookmarks(bookmarkedMeals);
 
         // Initialize lists that correspond to UI elements (Parallel)
 

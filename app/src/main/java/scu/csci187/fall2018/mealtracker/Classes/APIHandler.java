@@ -6,8 +6,10 @@ package scu.csci187.fall2018.mealtracker.Classes;
         import java.io.BufferedReader;
         import java.io.IOException;
         import java.io.InputStreamReader;
+        import java.lang.reflect.Array;
         import java.net.MalformedURLException;
         import java.net.URL;
+        import java.util.ArrayList;
         import java.util.concurrent.ExecutionException;
 
         import android.os.AsyncTask;
@@ -15,6 +17,35 @@ package scu.csci187.fall2018.mealtracker.Classes;
 
 
 public class APIHandler extends AsyncTask<String, Void, JSONObject> {
+
+    boolean isSearch = false;
+
+    public ArrayList<Recipe> getRecipesFromBookmarks(ArrayList<String> bookmarkedMeals) {
+
+        ArrayList<Recipe> recipes = new ArrayList<>();
+
+        QueryParam qp = new QueryParam();
+        for (int i = 0; i < bookmarkedMeals.size(); ++i) {
+            String currentMealLink = bookmarkedMeals.get(i);
+            String formattedLink = qp.getFormattedBookmarkURL(currentMealLink);
+            JSONObject json;
+
+            try {
+                json = new APIHandler().execute( formattedLink ).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                json = new JSONObject();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                json = new JSONObject();
+
+            }
+
+            Recipe returnedRecipe = new Recipe(json);
+            recipes.add(returnedRecipe);
+        }
+        return recipes;
+    }
 
     public Query search(QueryParam qp) {
 
