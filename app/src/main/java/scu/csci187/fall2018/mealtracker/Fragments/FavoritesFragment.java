@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 import scu.csci187.fall2018.mealtracker.Classes.FavoritesRecyclerViewAdapter;
 import scu.csci187.fall2018.mealtracker.Classes.RecipeRecord;
 import scu.csci187.fall2018.mealtracker.R;
@@ -22,7 +23,7 @@ import scu.csci187.fall2018.mealtracker.R;
 public class FavoritesFragment extends Fragment {
     private RecyclerView rvFavorites;
     private List<String> meals, pics;
-    private List<RecipeRecord> recipeRecords;
+    private List<RecipeRecord> recipeRecords = new ArrayList<>();
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -56,7 +57,7 @@ public class FavoritesFragment extends Fragment {
 
 
         // DB Calls to build List<string> meals/pics for search
-
+        recipeRecords = this.getRecipeRecordsFromDB();
 
         for (RecipeRecord rr : recipeRecords) {
             meals.add(rr.getName());
@@ -65,14 +66,24 @@ public class FavoritesFragment extends Fragment {
 
     }
 
-//        meals.add("Meal 1");
-//        meals.add("Meal 2");
-//        meals.add("Meal 3");
-//        meals.add("Meal 4");
-//        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-//        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
-//        pics.add("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2007/2/8/0/ig0805_soup.jpg.rend.hgtvcom.616.462.suffix/1396643717441.jpeg");
-//        pics.add("https://www.rareseeds.com/assets/1/14/DimRegular/Corn-True-Gold-CN133-LSS-000_2485.jpg");
+    public ArrayList<RecipeRecord> getRecipeRecordsFromDB() {
+
+        // TODO HARDCODED. CHANGE TO GET DATA FROM DB.
+        ArrayList<String> r1l = new ArrayList<>();
+        ArrayList<String> r2l = new ArrayList<>();
+        r1l.add("http://www.edamam.com/ontologies/edamam.owl#recipe_3da1169eb633a5e4607890ebf7dee89f");
+        r2l.add("http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98");
+
+        RecipeRecord r1 = new RecipeRecord("http://www.edamam.com/ontologies/edamam.owl#recipe_3da1169eb633a5e4607890ebf7dee89f", "food1", "12/4/2018",
+                        new APIHandler().getRecipesFromBookmarks(r1l).get(0).imageUrl());
+        RecipeRecord r2 = new RecipeRecord("http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98", "food1", "12/25/2018",
+                        new APIHandler().getRecipesFromBookmarks(r2l).get(0).imageUrl());
+        ArrayList<RecipeRecord> rr = new ArrayList<>();
+        rr.add(r1);
+        rr.add(r2);
+
+        return rr;
+    }
 
     public void createAndAttachRVAdapter() {
         FavoritesRecyclerViewAdapter favoritesAdapter = new FavoritesRecyclerViewAdapter(getContext(),
