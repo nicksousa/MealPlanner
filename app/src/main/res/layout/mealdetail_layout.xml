@@ -13,7 +13,7 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"/>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -23,7 +23,16 @@
             android:layout_margin="10dp"
             android:scaleType="centerInside"/>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/buttonMealDetailFavorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_favorite_no"
+            android:scaleType="fitCenter"
+            android:layout_gravity="end|bottom"
+            android:layout_marginRight="50dp"/>
+
+    </FrameLayout>
 
     <RatingBar
         android:id="@+id/mealRatingBar"
