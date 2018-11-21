@@ -29,6 +29,13 @@ public class Recipe {
         return ret;
     }
 
+    public String name () {
+        try {
+            return value.getString("label");
+        } catch (JSONException e) {
+            return "";
+        }
+    }
     public String linkInAPI () {
         try {
             return value.getString("uri");

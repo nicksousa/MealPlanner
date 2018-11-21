@@ -41,7 +41,7 @@ public class TestActivity extends AppCompatActivity {
         try {
             query = apiHandler.execute(qptest).get();
         } catch (ExecutionException e) {
-           query = null;
+            query = null;
         } catch (InterruptedException e) {
             query = null;
         }

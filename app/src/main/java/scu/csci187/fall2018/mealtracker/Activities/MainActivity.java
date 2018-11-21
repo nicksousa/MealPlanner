@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_PREFERENCES = "preferences";
     private static final String TAG_MEALDETAIL = "mealdetail";
     private static final String TAG_FILTERS = "filters";
+    private Fragment fragment;
     public static String CURRENT_TAG = TAG_HOME;
 
     private String[] activityTitles;
@@ -234,7 +235,6 @@ public class MainActivity extends AppCompatActivity
     public void goToFilters(String inputString) {
 
         searchText = inputString;   // save search string if user inputted one before going to filters
-
         mFiltersFragment = (FiltersFragment) getSupportFragmentManager().findFragmentByTag(TAG_FILTERS);
         if(mFiltersFragment == null) {
             mFiltersFragment = new FiltersFragment();
@@ -244,6 +244,12 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.frame, mFiltersFragment, "filters");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void sendPreferences(UserPreferences userPrefs) {
+
+        SearchFragment searchFragment = (SearchFragment) this.fragment;
+        searchFragment.receivePreferences(userPrefs);
     }
 
     // Implement listener for Filters Fragment

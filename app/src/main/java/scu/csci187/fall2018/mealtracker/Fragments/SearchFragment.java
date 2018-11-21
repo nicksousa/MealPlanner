@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import scu.csci187.fall2018.mealtracker.Classes.PreferencesTranslator;
+import scu.csci187.fall2018.mealtracker.Classes.QueryParam;
 import scu.csci187.fall2018.mealtracker.Classes.SearchRecyclerViewAdapter;
 import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
 import scu.csci187.fall2018.mealtracker.R;
@@ -28,7 +30,7 @@ public class SearchFragment extends Fragment {
     private EditText searchText;
     private Button buttonSearch;
     private ImageButton buttonFilters;
-
+    private UserPreferences userPrefs;
     private UserPreferences inputtedFilters;
 
     private SearchFragmentListener mCallback;
@@ -68,6 +70,7 @@ public class SearchFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement FiltersFragmentListener");
         }
+
     }
 
     @Override
@@ -112,10 +115,23 @@ public class SearchFragment extends Fragment {
 
         searchString = searchText.getText().toString();
 
-        // get filter values
-        //  if inputtedFilters == null, send null UserPreferences object
-        // build query
-        // execute query
+        // Get filters
+        // Construct Query
+        QueryParam qp = new QueryParam();
+
+
+        // TODO implement once I have the necessary methods.
+        // All methods called by storageHandler are placeholders.
+        // storageHandler deosn't exist. Read above todo.
+        qp.setQuery(searchString);
+        PreferencesTranslator prefsTranslator = new PreferencesTranslator();
+
+        prefsTranslator.setDietInQueryParam(userPrefs, qp);
+        prefsTranslator.setHealthLabelsInQueryParam(userPrefs, qp);
+
+
+
+
 
         populateSearchListFromAPI();
         createAndAttachRVAdapter();
@@ -169,5 +185,7 @@ public class SearchFragment extends Fragment {
     public interface SearchFragmentListener {
         void goToFilters(String inputString);
     }
-
+    public void receivePreferences(UserPreferences userPrefs) {
+        this.userPrefs = userPrefs;
+    }
 }

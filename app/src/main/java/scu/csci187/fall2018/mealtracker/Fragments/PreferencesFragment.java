@@ -15,6 +15,9 @@ import scu.csci187.fall2018.mealtracker.R;
 import scu.csci187.fall2018.mealtracker.Classes.UserPreferences;
 
 public class PreferencesFragment extends Fragment {
+    private OnFragmentInteractionListener mListener;
+
+    private UserPreferences userPrefs;
     private EditText calorieLow, calorieHigh, maxTimeInMinutes;
     private RadioGroup radioDietLabels;
     private int selectedRadioId = -1;
@@ -89,6 +92,8 @@ public class PreferencesFragment extends Fragment {
                 kosher.isChecked(), gluten.isChecked(), paleo.isChecked(), shellfish.isChecked(),
                 dairy.isChecked(), treenut.isChecked(), peanut.isChecked(), egg.isChecked());
 
+        // Set member var with val that can be accessed.
+        this.userPrefs = newPreferences;
         /*
             TODO: ERROR CHECKING INPUT FOR CALORIES, TIME
                  SAVE TO DATABASE
@@ -115,4 +120,58 @@ public class PreferencesFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+        PrefToSearch pts;
+        try {
+            pts = (PrefToSearch) getActivity();
+            pts.sendPreferences(userPrefs);
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Error in retrieving data. Please try again");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public UserPreferences getPreferences() {
+        return this.userPrefs;
+    }
+
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(String id);
+    }
+
+    public interface PrefToSearch {
+         void sendPreferences(UserPreferences userPrefs);
+    }
+
 }
