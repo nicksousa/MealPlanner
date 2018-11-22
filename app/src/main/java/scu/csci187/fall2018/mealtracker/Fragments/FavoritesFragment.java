@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,19 +87,24 @@ public class FavoritesFragment extends Fragment {
     }
 
     public void createAndAttachRVAdapter() {
+        ArrayList<String> bookmarkURL = new ArrayList<>();
+        for (RecipeRecord rr : recipeRecords) {
+            bookmarkURL.add(rr.getBookmarkURL());
+        }
+
         FavoritesRecyclerViewAdapter favoritesAdapter = new FavoritesRecyclerViewAdapter(getContext(),
-                meals, pics, this);
+                meals, pics, bookmarkURL, this);
         rvFavorites.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvFavorites.setAdapter(favoritesAdapter);
     }
 
     // Create then display Meal Detail fragment using mealName
-    public void showMealDetail(String mealName, String picURL) {
+    public void showMealDetail(String bookmarkURL) {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
-        b.putString("mealName", mealName);
-        b.putString("picURL", picURL);
-        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
+        b.putString("bookmarkURL", bookmarkURL);
+//        b.putString("picURL", picURL);
+//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);

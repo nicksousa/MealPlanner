@@ -22,4 +22,8 @@ public class Ingredients {
         Ingredient ingredient = new Ingredient(temp);
         return ingredient;
     }
+
+    public int length() {
+        return value.length();
+    }
 }

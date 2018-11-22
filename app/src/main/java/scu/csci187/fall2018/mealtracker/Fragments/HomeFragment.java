@@ -36,8 +36,8 @@ public class HomeFragment extends Fragment {
     private TextView todaysCalories, macroCarb, macroProtein, macroFat;
     private RecyclerView rvUpcoming, rvHistory;
 
-    private List<String> upcomingMeals, upcomingDates, upcomingPics,
-            historyMeals, historyDates, historyPics;
+    private List<String> upcomingMeals, upcomingDates, upcomingPics, upcomingBookmarks,
+            historyMeals, historyDates, historyPics, historyBookmarks;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,11 +93,13 @@ public class HomeFragment extends Fragment {
         upcomingMeals = new ArrayList<>();
         upcomingDates = new ArrayList<>();
         upcomingPics = new ArrayList<>();
+        upcomingBookmarks = new ArrayList<>();
 
         // Parallel set -> (History)
         historyMeals = new ArrayList<>();
         historyDates = new ArrayList<>();
         historyPics = new ArrayList<>();
+        historyBookmarks = new ArrayList<>();
 
 
         ArrayList<RecipeRecord> recipeRecords = new ArrayList<>();
@@ -128,6 +130,7 @@ public class HomeFragment extends Fragment {
                 upcomingMeals.add(rr.getName());
                 upcomingDates.add(rr.getDateString());
                 upcomingPics.add(rr.getPicURL());
+                upcomingBookmarks.add(rr.getBookmarkURL());
             }
         }
         for (RecipeRecord rr : recipeRecords) {
@@ -138,6 +141,7 @@ public class HomeFragment extends Fragment {
                 historyMeals.add(rr.getName());
                 historyDates.add(rr.getDateString());
                 historyPics.add(rr.getPicURL());
+                upcomingBookmarks.add(rr.getBookmarkURL());
             }
         }
 
@@ -147,25 +151,26 @@ public class HomeFragment extends Fragment {
 
     public void createAndAttachRVAdapters() {
         HomeRecyclerViewAdapter upcomingAdapter = new HomeRecyclerViewAdapter(getContext(),
-                                    upcomingMeals, upcomingDates, upcomingPics, this);
+                                    upcomingMeals, upcomingDates, upcomingPics, upcomingBookmarks, this);
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(),
                                  LinearLayoutManager.HORIZONTAL, false));
         rvUpcoming.setAdapter(upcomingAdapter);
 
         HomeRecyclerViewAdapter historyAdapter = new HomeRecyclerViewAdapter(getContext(),
-                                    historyMeals, historyDates, historyPics, this);
+                                    historyMeals, historyDates, historyPics, historyBookmarks, this);
         rvHistory.setLayoutManager(new LinearLayoutManager(getActivity(),
                                         LinearLayout.HORIZONTAL, false));
         rvHistory.setAdapter(historyAdapter);
     }
 
     // Create then display Meal Detail fragment using mealName
-    public void showMealDetail(String mealName, String picURL) {
+    public void showMealDetail(String bookmarkURL) {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
-        b.putString("mealName", mealName);
-        b.putString("picURL", picURL);
-        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
+        b.putString("bookmarkURL", bookmarkURL);
+//        b.putString("mealName", mealName);
+//        b.putString("picURL", picURL);
+//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);

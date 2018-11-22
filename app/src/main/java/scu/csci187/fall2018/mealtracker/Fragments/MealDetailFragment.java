@@ -17,7 +17,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import scu.csci187.fall2018.mealtracker.Activities.ViewRecipeActivity;
+import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 import scu.csci187.fall2018.mealtracker.Classes.ImageLoaderFromUrl;
+import scu.csci187.fall2018.mealtracker.Classes.Ingredient;
+import scu.csci187.fall2018.mealtracker.Classes.Ingredients;
+import scu.csci187.fall2018.mealtracker.Classes.Recipe;
 import scu.csci187.fall2018.mealtracker.R;
 
 
@@ -27,8 +31,10 @@ public class MealDetailFragment extends Fragment {
     private RatingBar mealRatingBar;
     private ListView lvIngredients;
     private Button buttonToRecipe;
+    private Ingredients ingredients;
+    private Recipe r;
 
-    private String mealName, picURL, recipeURL;
+    private String mealName, picURL, recipeURL, bookmarkURL;
     private ArrayList<String> ingredientsList;
     private int mealRating;
     private boolean mealIsFavorited;
@@ -42,9 +48,13 @@ public class MealDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mealName = getArguments().getString("mealName");
-            picURL = getArguments().getString("picURL");
-            recipeURL = getArguments().getString("recipeURL");
+            bookmarkURL = getArguments().getString("bookmarkURL");
+            ArrayList<String> bookmarks = new ArrayList<>();
+            bookmarks.add(bookmarkURL);
+            r = new APIHandler().getRecipesFromBookmarks(bookmarks).get(0);
+            picURL = r.imageUrl();
+            mealName = r.name();
+            recipeURL = r.linkToInstructions();
         }
     }
 
@@ -149,13 +159,11 @@ public class MealDetailFragment extends Fragment {
         new ImageLoaderFromUrl(ivMealPic).execute(picURL);
 
         mealRatingBar.setRating(3);
-        ingredientsList.add("1/2 oz chicken");
-        ingredientsList.add("5 lbs salt");
-        ingredientsList.add("1 bay leaf");
-        ingredientsList.add("23 ibuprofen");
-        ingredientsList.add("6 rabbit's foot");
-        ingredientsList.add("1/2 can Red Bull");
-        ingredientsList.add("2 spinach leaves");
+        Ingredient ingredient;
+        for (int i = 0; i < r.ingredients().length(); ++i) {
+            ingredient = r.ingredients().getIngredientAtIndex(i);
+            ingredientsList.add(ingredient.food());
+        }
 
 
         ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getActivity(),
