@@ -23,17 +23,19 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     private List<String> meals;
     private List<String> dates;
     private List<String> picUrls;
+    private List<String> bookmarkURL;
     HomeFragment sourceFragment;
     private ItemClickListener clickListener;
     Context mContext;
 
     public HomeRecyclerViewAdapter(Context context, List<String> meals, List<String> dates,
-                                   List<String> picUrls, HomeFragment sourceFragment) {
+                                   List<String> picUrls, List<String> bookmarkURL, HomeFragment sourceFragment) {
         this.meals = meals;
         this.dates = dates;
         this.picUrls = picUrls;
         this.sourceFragment = sourceFragment;
         this.mContext = context;
+        this.bookmarkURL = bookmarkURL;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+                sourceFragment.showMealDetail(bookmarkURL.get(position));
             }
         });
 
@@ -55,7 +57,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+                sourceFragment.showMealDetail(bookmarkURL.get(position));
             }
         });
         return vHolder;

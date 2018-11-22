@@ -46,6 +46,7 @@ public class SearchFragment extends Fragment {
     private SearchFragmentListener mCallback;
     private List<String> meals, pics;
     private List<Recipe> recipes;
+    private ArrayList<String> bookmarkURLs = new ArrayList<>();
 
     private String myInputString = "";
 
@@ -191,8 +192,11 @@ public class SearchFragment extends Fragment {
     }
 
     private void createAndAttachRVAdapter() {
+        for (Recipe r : recipes){
+            bookmarkURLs.add(r.linkInAPI());
+        }
         SearchRecyclerViewAdapter searchAdapter = new SearchRecyclerViewAdapter(getContext(),
-                meals, pics, this);
+                meals, pics, bookmarkURLs, this);
         rvSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvSearch.setAdapter(searchAdapter);
     }
@@ -203,12 +207,12 @@ public class SearchFragment extends Fragment {
     }
 
     // Create then display Meal Detail fragment using mealName
-    public void showMealDetail(String mealName, String picURL) {
+    public void showMealDetail(String bookmarkURL) {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
-        b.putString("mealName", mealName);
-        b.putString("picURL", picURL);
-        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
+        b.putString("bookmarkURL", bookmarkURL);
+//        b.putString("picURL", picURL);
+//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);

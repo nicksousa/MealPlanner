@@ -23,16 +23,18 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     private List<String> meals;
     private List<String> picUrls;
+    private List<String> bookmarkURLs;
     private ItemClickListener clickListener;
     SearchFragment sourceFragment;
     Context mContext;
 
-    public SearchRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls,
+    public SearchRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls, List<String> bookmarkURLs,
                                                         SearchFragment sourceFragment) {
         this.meals = meals;
         this.picUrls = picUrls;
         this.mContext = context;
         this.sourceFragment = sourceFragment;
+        this.bookmarkURLs = bookmarkURLs;
     }
 
     @Override
@@ -46,14 +48,14 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+                sourceFragment.showMealDetail(bookmarkURLs.get(position));
             }
         });
         vHolder.itemName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+                sourceFragment.showMealDetail(bookmarkURLs.get(position));
             }
         });
 

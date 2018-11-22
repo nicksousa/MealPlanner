@@ -22,16 +22,18 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
 
     private List<String> meals;
     private List<String> picUrls;
+    private List<String> bookmarkURL;
     FavoritesFragment sourceFragment;
     private ItemClickListener clickListener;
     Context mContext;
 
-    public FavoritesRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls,
+    public FavoritesRecyclerViewAdapter(Context context, List<String> meals, List<String> picUrls, List<String> bookmarkURL,
                                         FavoritesFragment sourceFragment) {
         this.meals = meals;
         this.picUrls = picUrls;
         this.mContext = context;
         this.sourceFragment = sourceFragment;
+        this.bookmarkURL = bookmarkURL;
     }
 
     @Override
@@ -45,14 +47,14 @@ public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<Favorites
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+                sourceFragment.showMealDetail(bookmarkURL.get(position));
             }
         });
         vHolder.favLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showMealDetail(meals.get(position), picUrls.get(position));
+                sourceFragment.showMealDetail(bookmarkURL.get(position));
             }
         });
 
