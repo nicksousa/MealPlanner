@@ -65,7 +65,7 @@ public class MealDetailFragment extends Fragment {
             mealName = r.name();
             recipeURL = r.linkToInstructions();
             index = getArguments().containsKey("index") ? getArguments().getInt("index") : -1;
-            showMadeButton = getArguments().containsKey("madeThis") ? getArguments().getBoolean("madeThis") : false;
+            showMadeButton = getArguments().containsKey("madeThis") && getArguments().getBoolean("madeThis");
         }
     }
 
@@ -270,10 +270,10 @@ public class MealDetailFragment extends Fragment {
     }
 
     public interface ScheduleMealListener {
-        public void showHomeScreenAfterScheduleMeal();
+        void showHomeScreenAfterScheduleMeal();
     }
 
     public interface MadeMealListener {
-        public void madeMealUpdateHistory(int index);
+        void madeMealUpdateHistory(int index);
     }
 }
