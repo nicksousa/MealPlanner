@@ -77,6 +77,10 @@
     <string name="add_to_favorites">Add to Favorites</string>
     <string name="search_meal_name_here">SEARCH MEAL NAME HERE</string>
     <string name="none">None</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="user_preferences1">User Preferences</string>
+    <string name="logout">Logout</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
