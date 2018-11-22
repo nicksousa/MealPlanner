@@ -1,5 +1,6 @@
 package scu.csci187.fall2018.mealtracker.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,13 +28,16 @@ public class MealDetailFragment extends Fragment {
     private ImageView ivMealPic, ivFavorite;
     private RatingBar mealRatingBar;
     private ListView lvIngredients;
-    private Button buttonToRecipe;
+    private Button buttonToRecipe, buttonMadeThis;
 
     private String mealName, picURL, recipeURL;
+    private boolean showMadeButton = false;
     private ArrayList<String> ingredientsList;
     private int mealRating;
+    private int index = -1;
     private boolean mealIsFavorited;
 
+    private MadeMealListener madeMealListener;
 
     public MealDetailFragment() {
         // Required empty public constructor
@@ -45,6 +50,8 @@ public class MealDetailFragment extends Fragment {
             mealName = getArguments().getString("mealName");
             picURL = getArguments().getString("picURL");
             recipeURL = getArguments().getString("recipeURL");
+            index = getArguments().containsKey("index") ? getArguments().getInt("index") : -1;
+            showMadeButton = getArguments().containsKey("madeThis") ? getArguments().getBoolean("madeThis") : false;
         }
     }
 
@@ -58,12 +65,27 @@ public class MealDetailFragment extends Fragment {
 
         ingredientsList = new ArrayList<>();
 
-        if(!mealName.isEmpty())
+        if(!mealName.isEmpty()) {
             populateMealData();
+            if(showMadeButton)
+                buttonMadeThis.setVisibility(View.VISIBLE);
+        }
         else
             getFragmentManager().popBackStackImmediate();   // return to previous fragment
 
         return view;
+    }
+
+    // Ensures that Activity has implemented FiltersFragmentListener
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MealDetailFragment.MadeMealListener) {
+            madeMealListener = (MealDetailFragment.MadeMealListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement MadeMealListener");
+        }
     }
 
     private void bindViews(View view) {
@@ -73,12 +95,14 @@ public class MealDetailFragment extends Fragment {
         mealRatingBar = view.findViewById(R.id.mealRatingBar);
         lvIngredients = view.findViewById(R.id.ingredientsList);
         buttonToRecipe = view.findViewById(R.id.buttonGoToRecipe);
+        buttonMadeThis = view.findViewById(R.id.buttonMadeThis);
     }
 
     private void attachUIListeners() {
         attachRecipeButtonListener();
         attachRatingBarListener();
         attachFavoritesListener();
+        attachMadeButtonListener();
     }
     private void attachRecipeButtonListener() {
         buttonToRecipe.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +139,19 @@ public class MealDetailFragment extends Fragment {
                     mealIsFavorited = true;
                     ivFavorite.setImageResource(R.drawable.ic_favorite);
                     updateMealFavoriteInDb(mealIsFavorited);
+                }
+            }
+        });
+    }
+
+    private void attachMadeButtonListener() {
+        buttonMadeThis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(index == -1)
+                    Toast.makeText(getContext(), "ERROR - INDEX: -1, bundle index null", Toast.LENGTH_SHORT).show();
+                else {
+                    madeMealListener.madeMealUpdateHistory(index);
                 }
             }
         });
@@ -177,5 +214,13 @@ public class MealDetailFragment extends Fragment {
             mealRatingBar.setRating(mealRating);
          */
 
+    }
+
+    public void setMadeMealListener(MadeMealListener listener) {
+        this.madeMealListener = listener;
+    }
+
+    public interface MadeMealListener {
+        public void madeMealUpdateHistory(int index);
     }
 }
