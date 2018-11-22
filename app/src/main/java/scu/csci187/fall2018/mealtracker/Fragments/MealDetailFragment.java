@@ -1,5 +1,6 @@
 package scu.csci187.fall2018.mealtracker.Fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import scu.csci187.fall2018.mealtracker.Activities.ViewRecipeActivity;
 import scu.csci187.fall2018.mealtracker.Classes.ImageLoaderFromUrl;
@@ -28,9 +31,9 @@ public class MealDetailFragment extends Fragment {
     private ImageView ivMealPic, ivFavorite;
     private RatingBar mealRatingBar;
     private ListView lvIngredients;
-    private Button buttonToRecipe, buttonMadeThis;
+    private Button buttonToRecipe, buttonMadeThis, buttonSchedule;
 
-    private String mealName, picURL, recipeURL;
+    private String mealName, picURL, recipeURL, uniqueID;
     private boolean showMadeButton = false;
     private ArrayList<String> ingredientsList;
     private int mealRating;
@@ -38,6 +41,7 @@ public class MealDetailFragment extends Fragment {
     private boolean mealIsFavorited;
 
     private MadeMealListener madeMealListener;
+    private ScheduleMealListener scheduleMealListener;
 
     public MealDetailFragment() {
         // Required empty public constructor
@@ -50,6 +54,7 @@ public class MealDetailFragment extends Fragment {
             mealName = getArguments().getString("mealName");
             picURL = getArguments().getString("picURL");
             recipeURL = getArguments().getString("recipeURL");
+            //uniqueID = getArguments().getString("uniqueID");
             index = getArguments().containsKey("index") ? getArguments().getInt("index") : -1;
             showMadeButton = getArguments().containsKey("madeThis") ? getArguments().getBoolean("madeThis") : false;
         }
@@ -65,26 +70,33 @@ public class MealDetailFragment extends Fragment {
 
         ingredientsList = new ArrayList<>();
 
-        if(!mealName.isEmpty()) {
+        if(mealName.isEmpty()) {
+            getFragmentManager().popBackStackImmediate();   // go back to previous fragment
+        }
+        else {
             populateMealData();
             if(showMadeButton)
                 buttonMadeThis.setVisibility(View.VISIBLE);
         }
-        else
-            getFragmentManager().popBackStackImmediate();   // return to previous fragment
 
         return view;
     }
 
-    // Ensures that Activity has implemented FiltersFragmentListener
+    // Ensures that Activity has implemented MadeMealListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MealDetailFragment.MadeMealListener) {
+        if (context instanceof MealDetailFragment.MadeMealListener ||
+                context instanceof MealDetailFragment.ScheduleMealListener) {
             madeMealListener = (MealDetailFragment.MadeMealListener) context;
-        } else {
+            scheduleMealListener = (MealDetailFragment.ScheduleMealListener) context;
+        }
+   /*     else if (context instanceof MealDetailFragment.ScheduleMealListener) {
+            scheduleMealListener = (MealDetailFragment.ScheduleMealListener) context;
+        }*/
+        else {
             throw new RuntimeException(context.toString()
-                    + " must implement MadeMealListener");
+                    + " must implement MadeMealListener and/or ScheduleMealListener");
         }
     }
 
@@ -96,6 +108,7 @@ public class MealDetailFragment extends Fragment {
         lvIngredients = view.findViewById(R.id.ingredientsList);
         buttonToRecipe = view.findViewById(R.id.buttonGoToRecipe);
         buttonMadeThis = view.findViewById(R.id.buttonMadeThis);
+        buttonSchedule = view.findViewById(R.id.buttonSchedule);
     }
 
     private void attachUIListeners() {
@@ -103,6 +116,7 @@ public class MealDetailFragment extends Fragment {
         attachRatingBarListener();
         attachFavoritesListener();
         attachMadeButtonListener();
+        attachScheduleButtonListener();
     }
     private void attachRecipeButtonListener() {
         buttonToRecipe.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +136,7 @@ public class MealDetailFragment extends Fragment {
         mealRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                updateUserMealRatingInDb((int)rating);
+                updateUserMealRatingInDB((int)rating);
             }
         });
     }
@@ -134,11 +148,11 @@ public class MealDetailFragment extends Fragment {
                 if (mealIsFavorited) {
                     mealIsFavorited = false;
                     ivFavorite.setImageResource(R.drawable.ic_favorite_no);
-                    updateMealFavoriteInDb(mealIsFavorited);
+                    updateMealFavoriteInDB(mealIsFavorited);
                 } else {
                     mealIsFavorited = true;
                     ivFavorite.setImageResource(R.drawable.ic_favorite);
-                    updateMealFavoriteInDb(mealIsFavorited);
+                    updateMealFavoriteInDB(mealIsFavorited);
                 }
             }
         });
@@ -157,6 +171,28 @@ public class MealDetailFragment extends Fragment {
         });
     }
 
+    private void attachScheduleButtonListener() {
+        buttonSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                final int myYear, myMonth, myDay;
+                DatePickerDialog picker = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                scheduleMealInDB(uniqueID, mealName, year, month+1, dayOfMonth);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+    }
+
     private void setupRatingBarAndFavorite() {
         /*
             TODO: Query DB for is meal favorited, meal rating
@@ -170,15 +206,25 @@ public class MealDetailFragment extends Fragment {
         mealRatingBar.setRating(mealRating);
     }
 
-    private void updateUserMealRatingInDb(int newRating) {
+    private void updateUserMealRatingInDB(int newRating) {
         /*
             TODO: Write meal rating to DB for User
          */
     }
-    private void updateMealFavoriteInDb(boolean isFavorited) {
+    private void updateMealFavoriteInDB(boolean isFavorited) {
         /*
             TODO: Write meal favorite to DB for User
          */
+    }
+
+    private void scheduleMealInDB(String uniqueID, String mealName, int year, int month, int day) {
+        /*
+            TODO: DB call to add Meal to Scheduled Meals table
+         */
+        Toast.makeText(getContext(), "Scheduled " + mealName + " for " + month + "/" + day + "/" + year, Toast.LENGTH_LONG).show();
+        // Once DB is updated, create and nav to new HomeFragment to re-initialize Upcoming/History lists, clear backstack
+        scheduleMealListener.showHomeScreenAfterScheduleMeal();
+
     }
 
     public void populateMealData() {
@@ -216,8 +262,8 @@ public class MealDetailFragment extends Fragment {
 
     }
 
-    public void setMadeMealListener(MadeMealListener listener) {
-        this.madeMealListener = listener;
+    public interface ScheduleMealListener {
+        public void showHomeScreenAfterScheduleMeal();
     }
 
     public interface MadeMealListener {

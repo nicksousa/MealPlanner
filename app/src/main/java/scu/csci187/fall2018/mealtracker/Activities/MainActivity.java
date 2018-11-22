@@ -34,7 +34,8 @@ import scu.csci187.fall2018.mealtracker.R;
 public class MainActivity extends AppCompatActivity
         implements SearchFragment.SearchFragmentListener,
         FiltersFragment.FiltersFragmentListener,
-        MealDetailFragment.MadeMealListener {
+        MealDetailFragment.MadeMealListener,
+        MealDetailFragment.ScheduleMealListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -253,6 +254,14 @@ public class MainActivity extends AppCompatActivity
          */
         HomeFragment homeFrag = (HomeFragment) getSupportFragmentManager().findFragmentByTag(TAG_HOME);
         homeFrag.notifyAdaptersDataChanged(index);
+        navToFragment(homeFrag, TAG_HOME);
+    }
+
+    // Implementation of ScheduleMealListener interface
+    public void showHomeScreenAfterScheduleMeal() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);    // clears fragment backstack to prevent returning to scheduler
+        HomeFragment homeFrag = new HomeFragment(); // reinitializes Home screen fragment (lists) from DB
         navToFragment(homeFrag, TAG_HOME);
     }
 

@@ -172,6 +172,7 @@ public class HomeFragment extends Fragment  {
         b.putString("mealName", mealName);
         b.putString("picURL", picURL);
         b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
+        //b.putString("uniqueID", **EDAMAM ID HERE**);
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);
@@ -186,6 +187,7 @@ public class HomeFragment extends Fragment  {
         b.putString("mealName", mealName);
         b.putString("picURL", picURL);
         b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
+        //b.putString("uniqueID", **EDAMAM ID HERE**);
         b.putInt("index", index);
         b.putBoolean("madeThis", true);
         newFragment.setArguments(b);
