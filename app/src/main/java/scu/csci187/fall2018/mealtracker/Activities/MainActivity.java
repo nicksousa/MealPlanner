@@ -33,7 +33,9 @@ import scu.csci187.fall2018.mealtracker.R;
 
 public class MainActivity extends AppCompatActivity
         implements SearchFragment.SearchFragmentListener,
-        FiltersFragment.FiltersFragmentListener {
+        FiltersFragment.FiltersFragmentListener,
+        MealDetailFragment.MadeMealListener,
+        MealDetailFragment.ScheduleMealListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -57,8 +59,6 @@ public class MainActivity extends AppCompatActivity
     private boolean shouldLoadHomeFragOnBackPress = false;
 
     private String searchText = "";
-
-    private Parcelable mSearchState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,8 +163,11 @@ public class MainActivity extends AppCompatActivity
         switch (navItemIndex) {
             case 0:
                 frag = (HomeFragment) getSupportFragmentManager().findFragmentByTag(TAG_HOME);
-                if(frag == null)
-                    return new HomeFragment();
+                if(frag == null) {
+                    HomeFragment homeFrag = new HomeFragment();
+
+                    return homeFrag;
+                }
                 else
                     return frag;
             case 1:
@@ -242,6 +245,26 @@ public class MainActivity extends AppCompatActivity
         navToFragment(mSearchFragment, TAG_SEARCH);
     }
 
+    // Implementation of MadeMealListener interface
+    public void madeMealUpdateHistory(int index) {
+        /*
+            TODO: UPDATE ALL DATA ARRAYS, WRITE TO DB
+                remove item@index for upcoming
+                add meal to History
+         */
+        HomeFragment homeFrag = (HomeFragment) getSupportFragmentManager().findFragmentByTag(TAG_HOME);
+        homeFrag.notifyAdaptersDataChanged(index);
+        navToFragment(homeFrag, TAG_HOME);
+    }
+
+    // Implementation of ScheduleMealListener interface
+    public void showHomeScreenAfterScheduleMeal() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);    // clears fragment backstack to prevent returning to scheduler
+        HomeFragment homeFrag = new HomeFragment(); // reinitializes Home screen fragment (lists) from DB
+        navToFragment(homeFrag, TAG_HOME);
+    }
+
     public void navToFragment(Fragment fragment, String tag) {
         CURRENT_TAG = tag;
 
@@ -254,4 +277,7 @@ public class MainActivity extends AppCompatActivity
         }
         fragmentTransaction.commit();
     }
+
+
+
 }

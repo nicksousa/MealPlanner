@@ -18,18 +18,33 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/mealDetailPic"
-            android:layout_width="match_parent"
+            android:layout_width="145dp"
             android:layout_height="145dp"
             android:layout_margin="10dp"
-            android:scaleType="centerInside"/>
+            android:scaleType="fitXY"
+            android:layout_gravity="center"/>
         <ImageView
             android:id="@+id/buttonMealDetailFavorite"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_favorite_no"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:layout_gravity="end|bottom"
             android:layout_marginRight="50dp"/>
+        <Button
+            android:id="@+id/buttonMadeThis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I made this!"
+            android:layout_gravity="bottom"
+            android:visibility="invisible"/>
+        <Button
+            android:id="@+id/buttonSchedule"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Schedule Meal"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="20dp"/>
     </FrameLayout>
 
     <RatingBar
