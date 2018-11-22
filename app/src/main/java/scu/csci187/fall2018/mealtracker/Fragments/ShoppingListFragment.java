@@ -154,6 +154,9 @@ public class ShoppingListFragment extends Fragment {
         toast.show();
     }
 
+    /*
+        TODO: SQLite read/write shoppinglist to disk
+     */
     private ArrayList<String> readShoppingListFromDisk() {
 
         return new ArrayList<>();

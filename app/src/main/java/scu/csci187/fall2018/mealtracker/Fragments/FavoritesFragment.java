@@ -103,8 +103,6 @@ public class FavoritesFragment extends Fragment {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("bookmarkURL", bookmarkURL);
-//        b.putString("picURL", picURL);
-//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);

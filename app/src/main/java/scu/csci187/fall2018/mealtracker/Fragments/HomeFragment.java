@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import scu.csci187.fall2018.mealtracker.Activities.MainActivity;
 import scu.csci187.fall2018.mealtracker.Classes.APIHandler;
 
 import java.util.ArrayList;
@@ -27,10 +29,11 @@ import scu.csci187.fall2018.mealtracker.Classes.QueryParam;
 import scu.csci187.fall2018.mealtracker.Classes.Recipe;
 import scu.csci187.fall2018.mealtracker.Classes.RecipeRecord;
 import scu.csci187.fall2018.mealtracker.Classes.RecipeRecordComparator;
+import scu.csci187.fall2018.mealtracker.Classes.UpcomingRecyclerViewAdapter;
 import scu.csci187.fall2018.mealtracker.R;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment  {
     //private OnFragmentInteractionListener mListener;
 
     private TextView todaysCalories, macroCarb, macroProtein, macroFat;
@@ -38,6 +41,9 @@ public class HomeFragment extends Fragment {
 
     private List<String> upcomingMeals, upcomingDates, upcomingPics, upcomingBookmarks,
             historyMeals, historyDates, historyPics, historyBookmarks;
+
+    private UpcomingRecyclerViewAdapter upcomingAdapter;
+    private HomeRecyclerViewAdapter historyAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -150,13 +156,13 @@ public class HomeFragment extends Fragment {
     }
 
     public void createAndAttachRVAdapters() {
-        HomeRecyclerViewAdapter upcomingAdapter = new HomeRecyclerViewAdapter(getContext(),
+        upcomingAdapter = new UpcomingRecyclerViewAdapter(getContext(),
                                     upcomingMeals, upcomingDates, upcomingPics, upcomingBookmarks, this);
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(),
                                  LinearLayoutManager.HORIZONTAL, false));
         rvUpcoming.setAdapter(upcomingAdapter);
 
-        HomeRecyclerViewAdapter historyAdapter = new HomeRecyclerViewAdapter(getContext(),
+        historyAdapter = new HomeRecyclerViewAdapter(getContext(),
                                     historyMeals, historyDates, historyPics, historyBookmarks, this);
         rvHistory.setLayoutManager(new LinearLayoutManager(getActivity(),
                                         LinearLayout.HORIZONTAL, false));
@@ -168,14 +174,65 @@ public class HomeFragment extends Fragment {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("bookmarkURL", bookmarkURL);
-//        b.putString("mealName", mealName);
-//        b.putString("picURL", picURL);
-//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    // Create then display Meal Detail fragment using mealName
+    public void showUpcomingMealDetail(String bookmarkURL, int index) {
+        MealDetailFragment newFragment = new MealDetailFragment();
+        Bundle b = new Bundle();
+        b.putString("bookmarkURL", bookmarkURL);
+        b.putInt("index", index);
+        b.putBoolean("madeThis", true);
+        newFragment.setArguments(b);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(getId(), newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    /*
+        TODO: Both RecyclerViews are not properly updating with new data
+     */
+    public void notifyAdaptersDataChanged(int index) {
+        String meal, date, pic;
+
+        meal = upcomingMeals.get(index);
+        date = upcomingDates.get(index);
+        pic = upcomingPics.get(index);
+
+
+        // Remove item from data lists
+        upcomingMeals.remove(index);
+        upcomingDates.remove(index);
+        upcomingPics.remove(index);
+        Toast.makeText(getContext(), "size meals " + upcomingMeals.size(), Toast.LENGTH_SHORT).show();
+
+        // Remove item from Upcoming List view
+        upcomingAdapter = new UpcomingRecyclerViewAdapter(getContext(), upcomingMeals, upcomingDates, upcomingPics, upcomingBookmarks, this);
+        rvUpcoming.setAdapter(upcomingAdapter);
+        //rvUpcoming.removeViewAt(index);
+        //upcomingAdapter.notifyItemRemoved(index);
+        //upcomingAdapter.notifyItemRangeChanged(index, upcomingMeals.size());
+        //upcomingAdapter.notifyDataSetChanged();
+
+        // Add item to History List view
+
+
+
+        historyMeals.add(0, meal);
+        historyDates.add(0, date);
+        historyPics.add(0, pic);
+        historyAdapter = new HomeRecyclerViewAdapter(getContext(),
+                historyMeals, historyDates, historyPics, historyBookmarks, this);
+        rvHistory.setAdapter(historyAdapter);
+        //
+
+    }
+
 
 }
