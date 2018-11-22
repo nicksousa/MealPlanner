@@ -41,7 +41,7 @@ public class SearchFragment extends Fragment {
     private EditText searchText;
     private Button buttonSearch;
     private ImageButton buttonFilters;
-    private UserPreferences inputtedFilters;
+    private UserPreferences inputtedFilters = null;
 
     private SearchFragmentListener mCallback;
     private List<String> meals, pics;

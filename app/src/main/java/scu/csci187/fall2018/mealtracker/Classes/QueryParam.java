@@ -71,13 +71,25 @@ public class QueryParam {
         String result = "https://api.edamam.com/search?";
 
         // Set diet params
-        result = result + "diet=" + this.diet + "&";
+        if (this.diet != "") {
+            result = result + "diet=" + this.diet + "&";
+        } else {
+
+        }
 
         // Set Calorie range
-        result = result + "calories=" + this.calorieMin + "-" + this.calorieMax + "&";
+        if (this.calorieMax > this.calorieMin) {
+            result = result + "calories=" + this.calorieMin + "-" + this.calorieMax + "&";
+        } else {
+            // Do not add a calorie range
+        }
 
         // Set time range
-        result = result + "time=" + this.timeMin + "-" + this.timeMax + "&";
+        if (this.timeMax > this.timeMin) {
+            result = result + "time=" + this.timeMin + "-" + this.timeMax + "&";
+        } else {
+            // Do not add a time range
+        }
 
         // Set query param
         result = result + "q=" + this.query;
