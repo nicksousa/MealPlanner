@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -122,6 +123,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openFiltersFragment();
+                collapseKeyboard();
             }
         });
 
@@ -129,8 +131,15 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 executeSearch();
+                collapseKeyboard();
             }
         });
+    }
+
+    private void collapseKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void openFiltersFragment() {
@@ -182,6 +191,7 @@ public class SearchFragment extends Fragment {
         meals = new ArrayList<>();
         pics = new ArrayList<>();
         recipes = new ArrayList<>();
+        bookmarkURLs = new ArrayList<>();
 
         for(int i = 0; i < query.getValue().length(); ++i) {
             Recipe currentRecipe = query.getRecipeAtIndex(i);
@@ -189,12 +199,13 @@ public class SearchFragment extends Fragment {
             pics.add(currentRecipe.imageUrl());
             recipes.add(currentRecipe);
         }
-    }
-
-    private void createAndAttachRVAdapter() {
         for (Recipe r : recipes){
             bookmarkURLs.add(r.linkInAPI());
         }
+    }
+
+    private void createAndAttachRVAdapter() {
+
         SearchRecyclerViewAdapter searchAdapter = new SearchRecyclerViewAdapter(getContext(),
                 meals, pics, bookmarkURLs, this);
         rvSearch.setLayoutManager(new LinearLayoutManager(getActivity()));

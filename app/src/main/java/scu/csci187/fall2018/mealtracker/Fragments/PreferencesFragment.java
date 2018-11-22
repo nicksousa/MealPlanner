@@ -82,9 +82,15 @@ public class PreferencesFragment extends Fragment {
     }
 
     public void savePreferencesToDB() {
-        lowCalorie = Integer.parseInt(calorieLow.getText().toString());
-        highCalorie = Integer.parseInt(calorieHigh.getText().toString());
-        maxTime = Integer.parseInt(maxTimeInMinutes.getText().toString());
+        String tempMinCal, tempMaxCal, tempMaxTime;
+
+        tempMinCal = calorieLow.getText().toString();
+        tempMaxCal = calorieHigh.getText().toString();
+        tempMaxTime = maxTimeInMinutes.getText().toString();
+
+        lowCalorie = (tempMinCal.isEmpty()) ? 0 : Integer.parseInt(tempMinCal);
+        highCalorie = (tempMaxCal.isEmpty()) ? 0 : Integer.parseInt(tempMaxCal);
+        maxTime = (tempMaxTime.isEmpty()) ? 0 : Integer.parseInt(tempMaxTime);
         UserPreferences newPreferences = new UserPreferences(lowCalorie, highCalorie, maxTime,
                 selectedRadioId, vegetarian.isChecked(), vegan.isChecked(), pescatarian.isChecked(),
                 kosher.isChecked(), gluten.isChecked(), paleo.isChecked(), shellfish.isChecked(),

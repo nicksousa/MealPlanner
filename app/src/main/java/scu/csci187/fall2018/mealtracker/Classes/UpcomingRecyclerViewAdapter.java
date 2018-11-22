@@ -20,18 +20,17 @@ import scu.csci187.fall2018.mealtracker.R;
 
 public class UpcomingRecyclerViewAdapter extends RecyclerView.Adapter<UpcomingRecyclerViewAdapter.MyViewHolder> {
 
-    private List<String> meals;
-    private List<String> dates;
-    private List<String> picUrls;
+    private List<String> meals, dates, picUrls, bookmarkURL;
     private HomeFragment sourceFragment;
     private ItemClickListener clickListener;
     Context mContext;
 
     public UpcomingRecyclerViewAdapter(Context context, List<String> meals, List<String> dates,
-                                   List<String> picUrls, HomeFragment sourceFragment) {
+                                   List<String> picUrls, List<String> bookmarkURL, HomeFragment sourceFragment) {
         this.meals = meals;
         this.dates = dates;
         this.picUrls = picUrls;
+        this.bookmarkURL = bookmarkURL;
         this.sourceFragment = sourceFragment;
         this.mContext = context;
     }
@@ -47,7 +46,7 @@ public class UpcomingRecyclerViewAdapter extends RecyclerView.Adapter<UpcomingRe
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showUpcomingMealDetail(meals.get(position), picUrls.get(position), position);
+                sourceFragment.showUpcomingMealDetail(bookmarkURL.get(position), position);
             }
         });
 
@@ -55,7 +54,7 @@ public class UpcomingRecyclerViewAdapter extends RecyclerView.Adapter<UpcomingRe
             @Override
             public void onClick(View v) {
                 final int position = vHolder.getAdapterPosition();
-                sourceFragment.showUpcomingMealDetail(meals.get(position), picUrls.get(position), position);
+                sourceFragment.showUpcomingMealDetail(bookmarkURL.get(position), position);
             }
         });
         return vHolder;

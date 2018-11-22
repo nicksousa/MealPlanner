@@ -76,6 +76,7 @@
     <string name="search_filters">SEARCH FILTERS</string>
     <string name="add_to_favorites">Add to Favorites</string>
     <string name="search_meal_name_here">SEARCH MEAL NAME HERE</string>
+    <string name="none">None</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">

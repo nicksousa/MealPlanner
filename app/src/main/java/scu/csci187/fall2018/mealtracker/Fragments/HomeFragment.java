@@ -174,9 +174,6 @@ public class HomeFragment extends Fragment  {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("bookmarkURL", bookmarkURL);
-//        b.putString("mealName", mealName);
-//        b.putString("picURL", picURL);
-//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         newFragment.setArguments(b);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(getId(), newFragment);
@@ -189,9 +186,6 @@ public class HomeFragment extends Fragment  {
         MealDetailFragment newFragment = new MealDetailFragment();
         Bundle b = new Bundle();
         b.putString("bookmarkURL", bookmarkURL);
-//        b.putString("mealName", mealName);
-//        b.putString("picURL", picURL);
-//        b.putString("recipeURL", "https://en.wikipedia.org/wiki/Pok%C3%A9mon:_Detective_Pikachu");
         b.putInt("index", index);
         b.putBoolean("madeThis", true);
         newFragment.setArguments(b);
@@ -219,7 +213,7 @@ public class HomeFragment extends Fragment  {
         Toast.makeText(getContext(), "size meals " + upcomingMeals.size(), Toast.LENGTH_SHORT).show();
 
         // Remove item from Upcoming List view
-        upcomingAdapter = new UpcomingRecyclerViewAdapter(getContext(), upcomingMeals, upcomingDates, upcomingPics, this);
+        upcomingAdapter = new UpcomingRecyclerViewAdapter(getContext(), upcomingMeals, upcomingDates, upcomingPics, upcomingBookmarks, this);
         rvUpcoming.setAdapter(upcomingAdapter);
         //rvUpcoming.removeViewAt(index);
         //upcomingAdapter.notifyItemRemoved(index);
@@ -234,7 +228,7 @@ public class HomeFragment extends Fragment  {
         historyDates.add(0, date);
         historyPics.add(0, pic);
         historyAdapter = new HomeRecyclerViewAdapter(getContext(),
-                historyMeals, historyDates, historyPics, this);
+                historyMeals, historyDates, historyPics, historyBookmarks, this);
         rvHistory.setAdapter(historyAdapter);
         //
 
